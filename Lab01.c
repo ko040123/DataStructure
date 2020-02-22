@@ -13,3 +13,9 @@ int main(){
   printf("total is %d\n", total);
   return 0;
 }
+
+//Use a reference operator, but not a pointer
+//Use a const, but not #define
+//Use a new operator to allocate an array
+//Use cout instead of printf()
+//Use a namespace std
