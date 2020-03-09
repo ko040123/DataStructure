@@ -17,6 +17,10 @@ int main(int argc, char** argv){
   string* str = args_to_strArray(argc, argv);
   vector<string> vec = args_to_strVector(argc, argv);
 
+  cout << "You entered: " << argc << " arguments." << endl;
+  for(int i = 0; i < argc; i++){
+    cout << argv[i] << endl;
+  }
   print_args(str, argc);
   print_args(vec);
 
