@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
 		cout << "b for bubble, i for insertion, q for quick, s for selection \n";
 		cout << "Enter an algorithm to sort(x to exit): ";
 		cin >> algo;
-		if (algo == 'x') exit(0);
+		if (algo == 'x') break;
 		if (algo != 'b' && algo != 'i' && algo != 'q' && algo != 's') {
 			cout << "The sort algorithm must be one of (b, i, q, s).\n";
-			exit(1);
+			break;
 		}
 
 		cout << "UNSORTED(" << N << "):\n";

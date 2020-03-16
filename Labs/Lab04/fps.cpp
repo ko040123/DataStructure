@@ -23,8 +23,10 @@ void op_print(int (*op)(int, int), int a, int b){
 
 int main(){
   int (*fps[])(int, int) = {fun, foo, add};
+
   int N = sizeof(fps) / sizeof(fps[0]);
   for(int i = 0; i < N; i++){
     op_print(fps[i], 2, 3);
   }
+
 }

@@ -80,6 +80,8 @@ int main(int argc, char *argv[]) {
 	char algorithm_list[4][20] = {"Bubble", "Insertion", "Quicksort", "Selection"};
 	enum algorithm_enum { BUBBLE, INSERTION, QUICKSORT, SELECTION };
 	int  algorithm_chosen = SELECTION;  // default algorithm chosen
+  void (*sortFn)(int *, int) = selectionSort; // Function pointer 생성
+
 	DPRINT(cout << ">main...N=" << N << endl;)
 
 	// Use setvbuf() to prevent the output from buffered on console.
@@ -108,16 +110,20 @@ int main(int argc, char *argv[]) {
 			switch (GetChar("\tEnter b for bubble, i for insertion, s for selection, q for quick sort: ")) {
 			// your code here
 			case 'b':
-				algorithm_chosen = BUBBLE;
+				sortFn = bubbleSort;
+        algorithm_chosen = BUBBLE;
 				break;
 			case 'i':
-				algorithm_chosen = INSERTION;
+				sortFn = insertionSort;
+        algorithm_chosen = INSERTION;
 				break;
 			case 's':
-				algorithm_chosen = SELECTION;
+				sortFn = selectionSort;
+        algorithm_chosen = SELECTION;
 				break;
 			case 'q':
-				algorithm_chosen = QUICKSORT;
+				sortFn = quickSort;
+        algorithm_chosen = QUICKSORT;
 				break;
 
 			default: { cout << "\n\tNo such an algorithm available. Try it again.\n"; break; }
@@ -165,24 +171,7 @@ int main(int argc, char *argv[]) {
 			}
 			cout << "\tThe clock ticks and " << algorithm_list[algorithm_chosen] << " begins...\n";
 			start = clock();
-
-			switch(algorithm_chosen){
-        case BUBBLE:
-        bubbleSort(list, N);
-        break;
-
-        case INSERTION:
-        insertionSort(list, N);
-        break;
-
-        case QUICKSORT:
-        quickSort(list, N);
-        break;
-
-        case SELECTION:
-        selectionSort(list, N);
-        break;
-      }
+      sortFn(list, N);
 			end = clock();
 			printList(list, N, max_print, per_line);
 			cout << "\tDuration: " << (end - start) / (double)CLOCKS_PER_SEC << " seconds\n";
