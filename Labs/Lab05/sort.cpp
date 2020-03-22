@@ -18,6 +18,8 @@ using namespace std;
 #define DPRINT(func) ;
 #endif
 
+void print_list(int *list, int n);
+
 int main(int argc, char *argv[]) {
 	int unsorted[] = { 3, 4, 1, 7, 0, 9, 6, 5, 2, 8};
 	int N = sizeof(unsorted) / sizeof(unsorted[0]);

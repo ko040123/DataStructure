@@ -4,10 +4,13 @@
 CC = g++
 INCDIR = ../../include
 LDFLAGS = -L../../lib -lnowic -lsort
-
 SRCS = sortDriver1.cpp
 OBJS = $(SRCS:.cpp=.o)
-TARGET = a
+TARGET = sort
+
+%.o: %.cpp
+	$(CC) -c -I$(INCDIR) $(LDFLAGS) $(SRCS)
+
 $(TARGET): $(OBJS)
 	$(CC) $(SRCS) -I$(INCDIR) $(LDFLAGS) -o $(TARGET)
 
