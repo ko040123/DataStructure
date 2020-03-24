@@ -4,27 +4,11 @@
 */
 
  /*
- * This program implements a recurisve binary_search():
- *
- * The binary search algorithm is a method of searching a sorted array for a single
- * element by cutting the array in half with each recursive pass.The trick is to
- * pick a midpoint near the center of the array, compare the data at that point
- * with the data being searched and then responding to one of three possible
- * conditions : the data is found at the midpoint, the data at the midpoint is
- * greater than the data being searched for, or the data at the midpoint is less
- * than the data being searched for.
- * Recursion is used in this algorithm because with each pass a new array is
- * created by cutting the old one in half.The binary search procedure is then
- * called recursively, this time on the new (and smaller) array.
- * Typically, the array's size is adjusted by manipulating a beginning and
- * ending index. The algorithm exhibits a logarithmic order of growth because
- * it essentially divides the problem domain in half with each pass.
- -------------------------------------------------------------------------------
  * In this example, you need an extra function at user's convenience since a
  * user may want to simply call the function with three parameters such as
  * binary_search(data, key, size).  Once you get the user's initial call,
  * then you call _binary_search(data, key, low, high) recursively.
---------------------------------------------------------------------------------
+
  * int _binary_search(int *list, int key, int lo, int hi)
  * implements a recursive binary search algorithm.
  * INPUT:
@@ -54,9 +38,11 @@ using namespace std;
 int _binary_search(int *data, int key, int lo, int hi) {
 	DPRINT(cout << "key=" << key << " lo=" << lo << " hi=" << hi << endl;);
 
-	cout << "your code here \n";
-
-	return 0;
+	if(lo > hi) return (lo + 1) * (-1);
+	int mi = (lo + hi) / 2;
+	if(key == data[mi]) return mi;
+	if(key < data[mi]) return _binary_search(data, key, lo, mi - 1);
+	else return _binary_search(data, key, mi + 1, hi);
 }
 
 int binary_search(int *list, int key, int size) {
@@ -66,7 +52,7 @@ int binary_search(int *list, int key, int size) {
 	return answer;
 }
 
-#if 0
+#if 1
 int main(int argc, char *argv[]) {
 	int list[] = { 3, 5, 6, 9, 11, 12, 15, 18, 19, 20 };
 	// int list[] = { 13, 15, 16, 19, 21, 22, 25, 28, 29, 30 };  // test set
@@ -81,12 +67,16 @@ int main(int argc, char *argv[]) {
 	// randomly generate numbers to search between
 	// list[0] and list[size-1], inclusviely.
 	// do this by 'size' times.
-
-	
 	// print the results as shown in binsearchx.exe.
-	// srand((unsigned)time(nullptr));    // turn off this line during debugging
+	srand((unsigned)time(nullptr));
+
 	for (int i = 0; i < size; i++) {
-		cout << "your code here \n";
+		int find_num = list[0] + (rand() % (list[size-1] - list[0] + 1));
+		int ans = binary_search(list, find_num, size);
+		if(ans < 0)
+			cout <<"\t"<< find_num <<"\tis not @["<< (-1) * (ans + 1) <<"]"<< endl;
+		else
+			cout <<"\t"<< find_num <<"\tis @["<< ans <<"]"<< endl;
 	}
 
 }
