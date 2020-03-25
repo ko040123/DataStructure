@@ -17,6 +17,8 @@
 
 #include <iostream>
 #include <cassert>
+#include <iomanip>
+
 using namespace std;
 
 #include "nowic.h"
@@ -113,6 +115,7 @@ int main(int argc, char *argv[]) {
 			}
 			break;
 		case 4:
+			cout << "\tBunnyEars Examples:\n";
 			cout << "\tbunnyEars(0) = 0\n";
 			cout << "\tbunnyEars(1) = 2\n";
 			cout << "\tbunnyEars(2) = 4\n";
@@ -125,19 +128,78 @@ int main(int argc, char *argv[]) {
 			}
 			break;
 		case 5:
-			cout << "your code here\n";
+			cout << "\tFunnyEars Examples:\n";
+			cout << "\tfunnyEars(0) = 0\n";
+			cout << "\tfunnyEars(1) = 2\n";
+			cout << "\tfunnyEars(2) = 5\n";
+			cout << "\tfunnyEars(3) = 7\n";
+			cout << "\tfunnyEars(4) = 10\n";
+			cout << "\tfunnyEars(9) = 22\n";
+			while(1){
+				N = GetInt("\tEnter a number of funnies(0 to quit): ");
+				if (N <= 0) break;
+				cout << "\tfunnyEars(" << N << ") = " << funnyEars(N) << endl;
+			}
 			break;
 		case 6:
-			cout << "your code here\n";
+			cout << "\tTriangle Examples\n";
+			cout << "\ttriangle(0) = 0\n";
+			cout << "\ttriangle(1) = 1\n";
+			cout << "\ttriangle(2) = 3\n";
+			cout << "\ttriangle(3) = 6\n";
+			cout << "\ttriangle(4) = 10\n";
+			cout << "\ttriangle(7) = 28\n";
+			while(1){
+				N = GetInt("\tEnter a number of rows(0 to quit): ");
+				if (N <= 0) break;
+				cout << "\ttriangle(" << N << ") = " << triangle(N) << endl;
+			}
 			break;
 		case 7:
-			cout << "your code here\n";
+			cout << "\tSum of digits Examples\n";
+			cout << "\tsumDigits(126) = 9\n";
+			cout << "\tsumDigits(49) = 13\n";
+			cout << "\tsumDigits(12) = 3\n";
+			cout << "\tsumDigits(1) = 1\n";
+			cout << "\tsumDigits(0) = 0\n";
+			cout << "\tsumDigits(10110) = 3\n";
+			cout << "\tsumDigits(235) = 10\n";
+			while(1){
+				N = GetInt("\tEnter a Digit(0 to quit): ");
+				if (N <= 0) break;
+				cout << "\tsumDigits(" << N << ") = " << sumDigits(N) << endl;
+			}
 			break;
 		case 8:
-			cout << "your code here\n";
+			cout << "\tCount 8 Examples\n";
+			cout << "\tcount8(818) = 2\n";
+			cout << "\tcount8(8) = 1\n";
+			cout << "\tcount8(123) = 0\n";
+			cout << "\tcount8(881238) = 3\n";
+			cout << "\tcount8(48581) = 2\n";
+			cout << "\tcount8(888586198) = 5\n";
+			cout << "\tcount8(99899) = 1\n";
+			while(1){
+				N = GetInt("\tEnter a number(0 to quit): ");
+				if (N <= 0) break;
+				cout << "\tcount8(" << N << ") = " << count8(N) << endl;
+			}
 			break;
 		case 9:
-			cout << "your code here\n";
+			cout << "\tPower N Examples\n";
+			cout << "\tpowerN(2,5) = 32\n";
+			cout << "\tpowerN(3,1) = 3\n";
+			cout << "\tpowerN(3,2) = 9\n";
+			cout << "\tpowerN(3,3) = 27\n";
+			cout << "\tpowerN(10,2) = 100\n";
+			cout << "\tpowerN(10,3) = 1000\n";
+			while (1) {
+				int x = GetInt("\tEnter a base (0 to quit): ");
+				if (x == 0) break;
+				int y = GetInt("\tEnter N (0 to quit): ");
+				if (y == 0) break;
+				cout << "\tpowerN(" << x << ", " << y << ") = " << powerN(x, y) << endl;
+			}
 			break;
 
 		case 10:
@@ -149,21 +211,21 @@ int main(int argc, char *argv[]) {
 				int *list = new (nothrow) int[N];
 				assert(list != nullptr);
 
+				srand((unsigned)time(nullptr));
 				for (int i = 0; i < N; i++)
 					list[i] = rand() % N;
 
 				merge_sort(list, N);
 				cout << "\t";
-				for (int i = 0; i < N; i++)
-					cout << list[i] << " ";
+				for (int i = 0; i < N; i++) cout << list[i] << " ";
 				cout << endl;
 
 				int key = GetInt("\tEnter a number to search: ");
 				int index = binary_search(list, key, N);
-
-				cout << "index=" << index << endl;
-				cout << "your code here to replace the line above.\n";
-
+				if(index < 0)
+					cout <<"\t"<< key <<"\tis not @["<< (-1) * (index + 1) <<"]"<< endl;
+				else
+					cout <<"\t"<< key <<"\tis @["<< index <<"]"<< endl;
 				delete[] list;
 			}
 		default:

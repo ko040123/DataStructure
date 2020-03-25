@@ -52,7 +52,7 @@ int binary_search(int *list, int key, int size) {
 	return answer;
 }
 
-#if 1
+#if 0
 int main(int argc, char *argv[]) {
 	int list[] = { 3, 5, 6, 9, 11, 12, 15, 18, 19, 20 };
 	// int list[] = { 13, 15, 16, 19, 21, 22, 25, 28, 29, 30 };  // test set
