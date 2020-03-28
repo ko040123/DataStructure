@@ -37,8 +37,8 @@ using namespace std;
 
 int _binary_search(int *data, int key, int lo, int hi) {
 	DPRINT(cout << "key=" << key << " lo=" << lo << " hi=" << hi << endl;);
-
 	if(lo > hi) return (lo + 1) * (-1);
+
 	int mi = (lo + hi) / 2;
 	if(key == data[mi]) return mi;
 	if(key < data[mi]) return _binary_search(data, key, lo, mi - 1);
@@ -47,7 +47,7 @@ int _binary_search(int *data, int key, int lo, int hi) {
 
 int binary_search(int *list, int key, int size) {
 	DPRINT(cout << ">binary_search: key=" << key << " size=" << size << endl;);
-	int answer = _binary_search(list, key, 0, size);
+	int answer = _binary_search(list, key, 0, size - 1);
 	DPRINT(cout << "<binary_search: answer=" << answer << endl;);
 	return answer;
 }
