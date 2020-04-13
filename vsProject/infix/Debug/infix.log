@@ -1,0 +1,5 @@
+﻿  infix.cpp
+C:\Github\DataStructure_2020_1\psets\pset06\infix.cpp(97,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  infixDriver.cpp
+  코드를 생성하고 있습니다...
+  infix.vcxproj -> C:\Github\DataStructure_2020_1\Project\Debug\infix.exe
