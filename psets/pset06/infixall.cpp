@@ -48,21 +48,9 @@ struct stack {
 // Stay tuned since we are going to use C++ Template to make them into
 // one or a generic function.
 // prints stack items from botton to top recursively.
-void printStack(stack<int> s) {
-	stack<int> temp;
-	while (!s.empty()) {
-		temp.push(s.top());
-		s.pop();
-	}
-	while (!temp.empty()) {
-		cout << temp.top() << " ";
-		s.push(temp.top());
-		temp.pop();
-	}
-}
-
-void printStack(stack<char> s) {
-	stack<char> temp;
+template <typename T>
+void printStack(stack<T> s) {
+	stack<T> temp;
 	while (!s.empty()) {
 		temp.push(s.top());
 		s.pop();
