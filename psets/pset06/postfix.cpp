@@ -6,7 +6,7 @@
 // For simplicity of coding, however, the postfix expression consists
 // of single character operands and operators only and may have spaces.
 //
-// 2020.04.08	for testing purpose, the basic stack with member functions added 
+// 2020.04.08	for testing purpose, the basic stack with member functions added
 //
 #include <iostream>
 #include <cassert>
@@ -64,7 +64,6 @@ void printStack(stack<string> orig) {
 		orig.push(temp.top());
 		temp.pop();
 	}
-	cout << endl;
 }
 
 // returns an infix expression after postfix evaluation.
@@ -73,10 +72,11 @@ string evaluate(string token) {
 	string temp, out;
 	DPRINT(cout << ">evaluate(): token=" << token << endl;);
 
-	for (int i = 0; i < token.length(); i++) {
+	for (unsigned int i = 0; i < token.length(); i++) {
 		DPRINT(cout << " token[" << i << "]=" << token[i] << endl;);
 		// current token is a whitespace or an opening brace, skip it.
 		if (token[i] == ' ') continue;
+		if (token[i] == '(') continue;
 		if (token[i] == '+' || token[i] == '-' || token[i] == '*' || token[i] == '/') {
 			temp = s.top();
 			s.pop();
@@ -87,21 +87,18 @@ string evaluate(string token) {
 		}
 		temp = token[i];
 		s.push(temp);
-		
+
 	}
 	DPRINT(cout << "--token exhausted---\n";);
 	DPRINT(cout << "--checking the stack, its size() should be 1---\n";);
 	DPRINT(printStack(s); cout << endl;);
-	assert(s.size() == 1);
 	DPRINT(cout << "--the stack is checked---\n";);
 
  	// change assert to check the post condition using the stack size
-	//cout << "your code to check the post condition\n";
+	assert(s.size() == 1);
 
 	out = s.top();
 
 	DPRINT(cout << "<evaluate() returns "  << out << endl;);
 	return out;
 }
-
-

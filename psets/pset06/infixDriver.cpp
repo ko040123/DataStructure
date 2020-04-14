@@ -1,17 +1,8 @@
-// infixDriver.cpp, infix.cpp:
-//
-// The program evaluates and tests a given infix expression which
-// is fully parenthesized.
-// It uses Dijkstra's two-stack algorithm. For simplicity of coding,
-// however, the expression is to be fully parenthesized.
-// For example:
-//   ((3 - 1 ) * 5) + 4
-//   2 * ((34 - 4) * 2)
-//   1 + (((12 * 2) / 4) - 1)
-//
-// Author: idebtor@gmail.com
-// 2020.04.02	Creation
-//
+/*
+*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+*  Signed: Kim Woo Bin   Student Number: 21600124
+*/
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -39,7 +30,7 @@ int main() {
 
 #if 1
 	int out;
-	cout << "Step 1: Simple cases[-2, 9, 6]" << endl;
+	cout << "Step 1: Simple cases[-2, -9, 6]" << endl;
 	string infix1[] = {"1 - 3", "1 - (2 * 5)", "( ( 3 - 1 ) * 5 ) - 4)"};
 	for (auto exp: infix1) {
 		out = evaluate(exp);

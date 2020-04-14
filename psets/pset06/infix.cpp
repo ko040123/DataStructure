@@ -2,22 +2,10 @@
 *  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
 *  Signed: Kim Woo Bin   Student Number: 21600124
 */
-//
-// The program evaluates a given infix expression which is fully parenthesized.
-// It uses Dijkstra's two-stack algorithm. For simplicity of coding, however,
-// the expression is to be fully parenthesized.
-// For example:
-//   ((3 - 1 ) * 5) + 4
-//   2 * ((34 - 4) * 2)
-//   1 + (((12 * 2) / 4) - 1)
-//
-// Author: idebtor@gmail.com
-// 2020.04.05	created and assert() added
-// 2020.04.08	for testing purpose, the basic stack with member functions added 
-//
+// infix.cpp :
 #include <iostream>
 #include <cassert>
-// #include <stack>
+#include <stack>
 using namespace std;
 
 #ifdef DEBUG
@@ -26,7 +14,7 @@ using namespace std;
 #define DPRINT(func) ;
 #endif
 
-#if 1
+#if 0
 /////////////////////////////////////////////////////////////////////////////////
 // a basic stack functinality only provided for pedagogical purpose
 // To use STL stack, just comment out this section and inclucde <stack> above.
@@ -62,11 +50,29 @@ struct stack {
 // one or a generic function.
 // prints stack items from botton to top recursively.
 void printStack(stack<int> s) {
-	cout << "stack<int>: your code here\n";
+	stack<int> temp;
+	while (!s.empty()) {
+		temp.push(s.top());
+		s.pop();
+	}
+	while (!temp.empty()) {
+		cout << temp.top() << " ";
+		s.push(temp.top());
+		temp.pop();
+	}
 }
 
 void printStack(stack<char> s) {
-	cout << "stack<char>: your code here\n";
+	stack<char> temp;
+	while (!s.empty()) {
+		temp.push(s.top());
+		s.pop();
+	}
+	while (!temp.empty()) {
+		cout << temp.top() << " ";
+		s.push(temp.top());
+		temp.pop();
+	}
 }
 
 // performs arithmetic operations.
@@ -76,15 +82,21 @@ int apply_op(int a, int b, char op) {
 	case '-': return a - b;
 	case '*': return a * b;
 	case '/': return a / b;
+	case '^': {
+		int ans = 1;
+		for (int i = 0; i < b; i++) {
+			ans *= a;
+		}
+		return ans;
+	}
 	}
 	cout << "Unsupported operator encountered: " << op << endl;
 	return 0;
 }
 
-// there is a bug ... 
 int compute(stack<int>& va_stack, stack<char>& op_stack) {
-	int left  = va_stack.top(); va_stack.pop();    
 	int right = va_stack.top(); va_stack.pop();
+	int left = va_stack.top(); va_stack.pop();
 	char op = op_stack.top(); op_stack.pop();
 	int answer = apply_op(left, right, op);
 	DPRINT(cout << " va/op_stack.pop: " << left << op << right << " = " << answer << endl;);
@@ -97,7 +109,7 @@ int evaluate(string token) {
 	stack<int>  va_stack;                 // stack to store operands or values
 	stack<char> op_stack;                 // stack to store operators.
 
-	for (int i = 0; i < token.length(); i++) {
+	for (unsigned int i = 0; i < token.length(); i++) {
 		DPRINT(cout << " token[" << i << "]=" << token[i] << endl;);
 
 		// current token is a whitespace or an opening brace, skip it.
@@ -106,9 +118,15 @@ int evaluate(string token) {
 
 		// current token is a value(or operand), push it to va_stack.
 		if (isdigit(token[i])) {
-			int va = 0;
-			// add the code to handle multi-digits value(operand)
-			va = token[i] - '0';
+			int count = 0;
+			int va;
+			va = token[i++] - '0';
+			while (isdigit(token[i])) {
+				count++;
+				int temp = token[i++] - '0';
+				va = va * 10 + temp;
+			}
+			i--;
 			va_stack.push(va);
 			DPRINT(cout << " va_stack.push: " << va << endl;);
 		} // closing brace encountered; compute it and push the result to va_stack.
@@ -130,13 +148,14 @@ int evaluate(string token) {
 	// The whole expression has been parsed at this point,
 	// apply remaining op_stack to remaining va_stack.
 	while (!op_stack.empty()) {
-		cout << "your code here\n";
+		int answer = compute(va_stack, op_stack);
+		va_stack.push(answer);
+		DPRINT(cout << " va_stack.push: " << answer << endl;);
 	}
 
 	// use two post-conditions for assertion
-	cout << "your code here to check two post-conditions\n";
-	assert(true);
-	assert(true);
+	assert(op_stack.empty());
+	assert(va_stack.size() == 1);
 
 	// va_stack top contains the result, return it.
 	DPRINT(cout << "<evaluate" << endl;);
