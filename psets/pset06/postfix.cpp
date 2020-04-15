@@ -2,16 +2,10 @@
 *  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
 *  Signed: Kim Woo Bin   Student Number: 21600124
 */
-//
-// For simplicity of coding, however, the postfix expression consists
-// of single character operands and operators only and may have spaces.
-//
-// 2020.04.08	for testing purpose, the basic stack with member functions added
-//
+
 #include <iostream>
 #include <cassert>
 using namespace std;
-//#include <cctype> -> isdigit
 #include <stack>
 
 
