@@ -17,9 +17,9 @@ int main() {
 	int val;
 	clock_t begin = 0;
 	Node *head = nullptr;
-	bool show_all = false;        // toggle the way of showing values 
-	int show_n = 12;              // n items shown per line  
-	
+	bool show_all = false;        // toggle the way of showing values
+	int show_n = 12;              // n items shown per line
+
 	do {
 		cout << "\n\tLinked List Commands(nodes:" << size(head);
 		cout << ", n items shown per line:" << show_n << ")\n";
@@ -35,7 +35,7 @@ int main() {
 		if (show_all)
 			cout << "\ts - show [ALL] items\t";
 		else
-			cout << "\ts - show [HEAD/TAIL]\t";    
+			cout << "\ts - show [HEAD/TAIL]\t";
 		cout << "\tz - reverse oddn***  O(n)\n";
 
 		c = GetChar("\tCommand[q to quit]: ");
@@ -104,9 +104,9 @@ int main() {
 			val = GetInt("\tEnter number of nodes to pop back?: ");
 			begin = clock();
 			// use the following line for STEP 1 ~ 4, comment out one line below ///
-			head = pop_backN(head, val);
+			//head = pop_backN(head, val);
 			///// use the follwing line to test STEP 5 instead of one above ////////
-			// head = pop_N(head, val, pop_back);
+			head = pop_N(head, val, pop_back);
 			break;
 
 		case 'P': ////////////// Special Note for Step 5 and after /////////////////
@@ -114,27 +114,27 @@ int main() {
 			val = GetInt("\tEnter number of nodes to pop front?: ");
 			begin = clock();
 			// use the following line for STEP 1 ~ 4, comment out one line below ///
-			head = pop_frontN(head, val);
+			//head = pop_frontN(head, val);
 			///// use the follwing line to test STEP 5 instead of one above ////////
-			// head = pop_N(head, val, pop_front);
+			head = pop_N(head, val, pop_front);
 			break;
 
 		case 'B': ////////////// Special Note for Step 5 and after /////////////////
 			val = GetInt("\tEnter number of nodes to push back?: ");
 			begin = clock();
 			// use the following line for STEP 1 ~ 4, comment out one line below ///
-			// head = push_backN(head, val); 
+			// head = push_backN(head, val);
 			///// use the follwing line to test STEP 5 instead of one above ////////
-			head = push_N(head, val, push_back); 
+			head = push_N(head, val, push_back);
 			break;
 
 		case 'F': ///////////// Special Note for Step 5 and after ///////////////////
 			val = GetInt("\tEnter number of nodes to push front?: ");
 			begin = clock();
 			// use the following line for STEP 1 ~ 4, comment out one line below ///
-			// head = push_frontN(head, val);   
+			//head = push_frontN(head, val);
 			///// use the following line to test STEP 5 instead of one above ///////
-			head = push_N(head, val, push_front);   
+			head = push_N(head, val, push_front);
 			break;
 
 		case 's': // toggle the way of showing
@@ -143,7 +143,7 @@ int main() {
 
 		case 'n':
 			val = GetInt("\tEnter the max items to show per line: ");
-			if (val >= 1) show_n = val;   
+			if (val >= 1) show_n = val;
 			break;
 
 		case 'c':
@@ -153,7 +153,7 @@ int main() {
 		}
 
 		// display elapsed time
-		switch (c) {  
+		switch (c) {
 		case 't':
 		case 'r':
 		case 'o':
