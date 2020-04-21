@@ -100,11 +100,6 @@ pNode push(pNode p, int val, int x) {
 	return p;
 }
 
-// returns an extended random number of which the range is from 0
-// to (RAND_MAX + 1)^2 - 1. // We do this since rand() returns too
-// small range [0..RAND_MAX) where RAND_MAX is usually defined as
-// 32767 in cstdlib. Refer to the following link for details
-// https://stackoverflow.com/questions/9775313/extend-rand-max-range
 unsigned long rand_extended(int range) {
 	if (range < RAND_MAX) return rand();
 	return rand() * RAND_MAX + rand();
@@ -336,7 +331,6 @@ Node* reverse_oddn(Node* head) {
 	stack<Node*> ostack;
 	Node* head2 = nullptr;  // new list head of odds reversed
 	Node* tail2 = nullptr;  // the last element of head2 list
-	Node* temp = nullptr;
 	while (head != nullptr) {
 		if (head->data % 2 == 1) {
 			DPRINT(cout << "Case Odd, stack push " << head->data << endl;);
@@ -351,30 +345,30 @@ Node* reverse_oddn(Node* head) {
 				tail2 = ostack.top();
 			}
 			// tail2 ?-----------------------------------------------
-			ostack.top() -> next = tail2;
-			tail2 = ostack.top();
+			tail2 -> next = ostack.top();
+			tail2 = tail2 -> next;
 			ostack.pop();
 			DPRINT(cout << " head2 push_back(stack): " << ostack.top() << endl;);
 		}
 		if(head2 == nullptr){
 			head2 = head;
 			tail2 = head;
+			head = head -> next;
+			continue;
 		}
 		// tail2 ?-----------------------------------------------
-		temp = head -> next;
-		head -> next = tail2;
-		tail2 = head;
-		head = temp;
+		tail2 -> next = head;
+		tail2 = tail2 -> next;
+		head = head -> next;
 		DPRINT(cout << " head2 push_back(head): " << head->data << endl;);
 	}
 
 	while(!ostack.empty()){
-		ostack.top() -> next = tail2;
-		tail2 = ostack.top();
+		tail2 -> next = ostack.top();
+		tail2 = tail2 -> next;
 		ostack.pop();
 	}
-	head2 -> next = nullptr;
-	head2 = tail2;
+	tail2 -> next = nullptr;
 	DPRINT(cout << "<reverse_oddn returns.\n";);
 	return head2;
 }
