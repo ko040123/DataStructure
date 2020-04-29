@@ -123,7 +123,7 @@ int main() {
 			val = GetInt("\tEnter number of nodes to push back?: ");
 			begin = clock();
 			// use the following line for STEP 1 ~ 4, comment out one line below ///
-			// head = push_backN(head, val);
+			//head = push_backN(head, val);
 			///// use the follwing line to test STEP 5 instead of one above ////////
 			head = push_N(head, val, push_back);
 			break;
