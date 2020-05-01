@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 	int value, x, N;
 	clock_t start = 0;
 	bool show_all = false;		// toggle the way of showing values
-	int show_n = 12;			// a magic number to begin with 
+	int show_n = 12;			// a magic number to begin with
 	pList p = new List();		// create an empty list with two sentinel nodes
 
 	do {
@@ -115,23 +115,23 @@ int main(int argc, char **argv) {
 			start = clock();
 			pop_all(p, value);
 			break;
-		case 's':  // sort
-			if (empty(p)) break;
-
-			if (sorted(p)) {
-				start = clock();
-				reverse(p);
-			}
-			else {
-				char ch = GetChar("\tEnter b:bubble, i:insertion, s:selection, q:quick sort: ");
-				start = clock();
-				switch (ch) {
-				case 'b': bubbleSort(p); break;
-				case 'i': insertionSort(p); break;
-				case 's': selectionSort(p); break;
-				case 'q': quickSort(p); break;
-				}
-			}
+		// case 's':  // sort
+		// 	if (empty(p)) break;
+		//
+		// 	if (sorted(p)) {
+		// 		start = clock();
+		// 		reverse(p);
+		// 	}
+		// 	else {
+		// 		char ch = GetChar("\tEnter b:bubble, i:insertion, s:selection, q:quick sort: ");
+		// 		start = clock();
+		// 		switch (ch) {
+		// 		case 'b': bubbleSort(p); break;
+		// 		case 'i': insertionSort(p); break;
+		// 		case 's': selectionSort(p); break;
+		// 		case 'q': quickSort(p); break;
+		// 		}
+		// 	}
 			break;
 		case 'u':  // unique
 			if (empty(p)) break;
