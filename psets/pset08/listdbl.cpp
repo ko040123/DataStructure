@@ -43,7 +43,7 @@ pNode half(pList p) {  // method 2 - rabbit and turtle
 
 	pNode rabbit = begin(p);
 	pNode turtle = begin(p);
-	while(rabbit != end(p) || rabbit != last(p)){
+	while(rabbit != end(p) && rabbit != last(p)){
 		rabbit = rabbit -> next -> next;
 		turtle = turtle -> next;
 	}
@@ -307,9 +307,11 @@ bool sorted(pList p) {
 bool sorted(pList p, int(*comp)(int a, int b)) {
 	DPRINT(cout << ">sorted?\n";);
 	if (size(p) <= 1) return true;
-
-	cout << "your code here\n";
-
+	pNode curr;
+	for(curr = begin(p)->next; curr != end(p); curr = curr->next){
+		if(comp(curr->prev->data, curr->data) > 0)
+			return false;
+	}
 	DPRINT(cout << "<sorted: true\n";);
 	return true;
 }
@@ -317,7 +319,10 @@ bool sorted(pList p, int(*comp)(int a, int b)) {
 // inserts a node with val in sorted in the "sorted" list. O(n)
 void push_sorted(pList p, int val) {
 	DPRINT(cout << "<push_sorted val=" << val << endl;);
-	cout << "your code here\n";
+	if(sorted(p, ascending))
+		insert(more(p,val),val);
+	else
+		insert(less(p,val),val);
 	DPRINT(cout << "<push_sorted\n";);
 }
 
@@ -431,11 +436,17 @@ void show(pList p, bool all, int show_n) {
 		cout << " -> " << curr->data;
 
 	if (N > show_n * 2)
-		cout << "\n...left out..." << "your code here" << "...left out...";
+		cout << "\n...left out..." << half(p)->data << "...left out...";
 	cout << "\n";
 
 	// print the last show_n data items
 	// move the pointer to the place where show_n data items are left.
-	cout << "your code here";
+	for (i = 1, curr = last(p); curr != begin(p) && i < show_n; i++)
+		curr = curr->prev;
+
+	while(curr != end(p)){
+		cout << " -> " << curr->data;
+		curr = curr -> next;
+	}
 	cout << "\n";
 }

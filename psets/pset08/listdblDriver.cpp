@@ -115,23 +115,23 @@ int main(int argc, char **argv) {
 			start = clock();
 			pop_all(p, value);
 			break;
-		// case 's':  // sort
-		// 	if (empty(p)) break;
-		//
-		// 	if (sorted(p)) {
-		// 		start = clock();
-		// 		reverse(p);
-		// 	}
-		// 	else {
-		// 		char ch = GetChar("\tEnter b:bubble, i:insertion, s:selection, q:quick sort: ");
-		// 		start = clock();
-		// 		switch (ch) {
-		// 		case 'b': bubbleSort(p); break;
-		// 		case 'i': insertionSort(p); break;
-		// 		case 's': selectionSort(p); break;
-		// 		case 'q': quickSort(p); break;
-		// 		}
-		// 	}
+		case 's':  // sort
+			if (empty(p)) break;
+
+			if (sorted(p)) {
+				start = clock();
+				reverse(p);
+			}
+			else {
+				char ch = GetChar("\tEnter b:bubble, i:insertion, s:selection, q:quick sort: ");
+				start = clock();
+				switch (ch) {
+				case 'b': bubbleSort(p); break;
+				case 'i': insertionSort(p); break;
+				case 's': selectionSort(p); break;
+				case 'q': quickSort(p); break;
+				}
+			}
 			break;
 		case 'u':  // unique
 			if (empty(p)) break;

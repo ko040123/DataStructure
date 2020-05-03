@@ -12,9 +12,10 @@ using namespace std;
 #define DPRINT(func) ;
 #endif
 
+
 // This function takes last element as pivot, places the pivot element at its
 // correct position in sorted array, and places all smaller (smaller than pivot)
-// to left of pivot and all greater elements to right of pivot 
+// to left of pivot and all greater elements to right of pivot
 pNode partition(pNode lo, pNode hi, int(*comp)(int, int) = ascending) {
 	int x = hi->data;     // set pivot as hi value
 	pNode i = lo->prev;   // Index of smaller element
@@ -91,17 +92,34 @@ void bubbleSort2(pList p, int(*comp)(int, int)) {
 
 void insertionSort(pList p, int(*comp)(int, int)) {
 	DPRINT(cout << ">insertionSort N=" << size(p) << endl;);
-
-	cout << "your code here\n";
+	pNode curr, curr_p;
+	int key;
+  for(curr = begin(p) -> next; curr != end(p); curr = curr -> next){
+		key = curr -> data;
+		for(curr_p = curr -> prev; curr_p != begin(p) -> prev; curr_p = curr_p -> prev){
+			if(comp(curr_p->data, key) > 0){
+				curr_p -> next -> data = curr_p -> data;
+			}
+			else
+				break;
+		}
+		curr_p -> next -> data = key;
+	}
 
 	DPRINT(cout << "<insertionSort N=" << size(p) << endl;);
 }
 
 void selectionSort(pList p, int(*comp)(int, int)) {
 	DPRINT(cout << ">selectionSort N=" << size(p) << endl;);
-
-	cout << "your code here\n";
+  pNode curr, curr_n,min;
+	for(curr = begin(p); curr != end(p); curr = curr -> next){
+		min = curr;
+		for(curr_n = curr -> next; curr_n != end(p); curr_n = curr_n -> next){
+			if(comp	(min->data, curr_n->data) > 0)
+				min = curr_n;
+		}
+		swap(curr->data,min->data);
+	}
 
 	DPRINT(cout << "<selctionSort N=" << size(p) << endl;);
 }
-
