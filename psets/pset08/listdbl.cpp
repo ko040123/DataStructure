@@ -137,7 +137,7 @@ void pop(pList p, int val) {
 
 void pop_all(pList p, int val) {
 	DPRINT(cout << ">pop_all val=" << val << endl;);
-#if 0
+#if 1
 	// O(n)
 	for (pNode c = begin(p); c != end(p); c = c->next) {
 		if(c->data == val) {
@@ -273,8 +273,6 @@ int descending(int a, int b) { return b - a; };
 int more(int a, int b) { return (a - b); }
 int less(int a, int b) { return (b - a); }
 
-// returns the node of which value is larger than x found first,
-// the tail sentinel node which is returned by end(p) otherwise.
 pNode more(pList p, int z) {
 	DPRINT(cout << ">more val=" << z << endl;);
 	pNode x = begin(p);
@@ -285,25 +283,21 @@ pNode more(pList p, int z) {
 	return x;
 }
 
-// returns the node of which value is smaller than x found first,
-// the tail sentinel node which is returned by end(p) otherwise.
 pNode less(pList p, int z) {
 	DPRINT(cout << ">less val=" << z << endl;);
 	pNode x = begin(p);
 	for (; x != end(p); x = x->next)
-		if (x->data > z) return x;
+		if (x->data < z) return x;
 
 	DPRINT(cout << "<less - not found\n";);
 	return x;
 }
 
-// returns true if sorted either by either ascending or descending
 bool sorted(pList p) {
 	DPRINT(cout << ">sorted up or dn\n";);
 	return sorted(p, ascending) || sorted(p, descending);
 }
 
-// returns true if sorted according to comp fp provided
 bool sorted(pList p, int(*comp)(int a, int b)) {
 	DPRINT(cout << ">sorted?\n";);
 	if (size(p) <= 1) return true;
@@ -316,21 +310,15 @@ bool sorted(pList p, int(*comp)(int a, int b)) {
 	return true;
 }
 
-// inserts a node with val in sorted in the "sorted" list. O(n)
 void push_sorted(pList p, int val) {
 	DPRINT(cout << "<push_sorted val=" << val << endl;);
 	if(sorted(p, ascending))
 		insert(more(p,val),val);
 	else
-		insert(less(p,val),val);
+		insert(::less(p,val),val);
 	DPRINT(cout << "<push_sorted\n";);
 }
 
-// inserts N number of nodes in sorted in the sorted list.
-// If you invoke push_sort() by N times, it takes longer, O(n^2) or
-// larger. Therefore, don't call push_sort() N timee or sorted().
-// The values for new nodes are randomly generated in the range of
-// [0..(N + size(p))]. You may use rand_extended().
 void push_sortedN(pList p, int N) {
 	DPRINT(cout << "<push_sortedN N=" << N << endl;);
 	pNode node;
@@ -338,7 +326,7 @@ void push_sortedN(pList p, int N) {
 	int range = N + psize;
 
 	srand((unsigned)time(NULL));	// initialize random seed
-	cout << "your code here\n";
+
 #if 0
 	// Slow code example:
 	for (int i = 0; i < N; i++) {
@@ -347,7 +335,18 @@ void push_sortedN(pList p, int N) {
 		insert(node, value);
 	}
 #else
-	cout << "your code here\n";
+	if(sorted(p,ascending)){
+		for(int i = 0; i < N; i++){
+			int val = rand_extended(range) % range;
+			insert(more(p,val),val);
+		}
+	}
+	else{
+		for(int i = 0; i < N; i++){
+			int val = rand_extended(range) % range;
+			insert(::less(p,val),val);
+		}
+	}
 #endif
 	DPRINT(cout << "<push_sortedN\n";);
 }
