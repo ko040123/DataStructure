@@ -351,13 +351,8 @@ void push_sortedN(pList p, int N) {
 	DPRINT(cout << "<push_sortedN\n";);
 }
 
-// inserts N number of nodes in sorted in the sorted list.
-// The goal of this function is to make it O(n log n).
-// Algorithm:
-// 1. Generate N numbers to insert. Let's name this array, vals.
-// 2. Sort vals using quicksort() of which time complexity
-//    is O(n log n), in ascending or descending depending on
-//    the list. .
+
+
 // 3. Merge two lists. - This process is O(n).
 //    Compare two values from the list and vals one by one.
 //    For example, if sorted ascending and vals is smaller,
@@ -379,8 +374,38 @@ void push_sortedNlog(pList p, int N) {
 	int psize = size(p);
 	int range = N + psize;
 	int* vals = new int[N];
+	pNode curr = p->head;
 
-	cout << "your code here\n";
+	srand((unsigned)time(NULL));	// initialize random seed
+
+	for(int i = 0; i < N; i++){
+		vals[i] = rand_extended(range) % range;
+	}
+	if(sorted(p,ascending)){
+		quickSort(vals, N, ascending);
+		for(int i = 0; i < N; i++){
+			while(curr != last(p)){
+				if(vals[i] - curr->next->data <= 0){
+				  insert(curr,vals[i]);
+					break;
+				}
+				curr = curr->next;
+			}
+		}
+	}
+	else{
+		quickSort(vals, N, descending);
+		for(int i = 0; i < N; i++){
+			while(curr != last(p)){
+				if(vals[i] - curr->next->data >= 0){
+				  insert(curr,vals[i]);
+					break;
+				}
+				curr = curr->next;
+			}
+		}
+	}
+
 
 	delete[] vals;
 	DPRINT(cout << "<push_sortedNlog\n";);
@@ -398,11 +423,11 @@ void push_sortedNlog(pList p, int N) {
 // position.  In 1st pass the largest value get its right position
 // and in 2nd pass 2nd largest value get its position and in 3rd
 // pass 3rd largest element get its position and so on.
-// void sort(pList p) {
-// 	DPRINT(cout << ">sort N=" << size(p) << endl;);
-// 	if (sorted(p)) return reverse(p);
-// 	bubbleSort(p);
-// }
+void sort(pList p) {
+	DPRINT(cout << ">sort N=" << size(p) << endl;);
+	if (sorted(p)) return reverse(p);
+	bubbleSort(p);
+}
 
 ///////////////////////// show /////////////////////////////////////////////
 
