@@ -88,8 +88,8 @@ void push_back(pList p, int value);
 void push(pList, int value, int x);
 
 // adds N number of new nodes at the end of the list. O(n)
-// If the value is not given, randomly generated values are used in
-// the range of [0..(N + size(p))]. Otherwise, simply insert the same
+// If the value is not given, randomly generated values are used in 
+// the range of [0..(N + size(p))]. Otherwise, simply insert the same 
 // value for N times.
 void push_backN(pList p, int N);
 void push_backN(pList p, int N, int value);
@@ -108,15 +108,13 @@ void pop_backN(pList p, int N = 0);
 void unique(pList p);
 
 // reverses the order of the nodes in O(n)
-void reverse(pList p);
+void reverse(pList p);  
 
 // returns shuffled list in O(n), ex)1234567890 returns 6172839405.
 void shuffle(pList p);
 
 ///////////////////////// sort //////////////////////////////////
 // returns the node of which value is larger or smaller than x found
-int ascending (int a, int b);
-int descending(int a, int b);
 pNode more(pList p, int x);
 pNode less(pList p, int x);
 
@@ -125,7 +123,7 @@ bool sorted(pList p);
 bool sorted(pList p, int (*comp)(int a, int b));
 
 // inserts a node with value in sorted in the "sorted" list, O(n)
-void push_sorted(pList p, int value);
+void push_sorted(pList p, int value); 
 
 // inserts N number of nodes in sorted in the sorted list. O(n^2)
 void push_sortedN(pList p, int N);
@@ -141,6 +139,6 @@ void quickSort(pList p, int(*comp)(int, int) = ascending);
 void quickSort(int* a, int n, int(*comp)(int, int) = ascending);
 
 ///////////////////////// show ///////////////////////////////////////
-// if all is true, show all nodes; otherwise, show_n * 2 nodes at front & back.
+// if all is true, show all nodes; otherwise, show_n * 2 nodes at front & back. 
 void show(pList p, bool all=true, int show_n=12);  // 12: a default magic number
 #endif // LISTDBL_H

@@ -195,6 +195,7 @@ int main(int argc, char **argv) {
 		case 'B':
 			N = GetInt("\tEnter N nodes to push back(-N for a value)?: ");
 			if (N > 0) {
+				start = clock(); 
 				push_backN(p, N);
 			}
 			else {

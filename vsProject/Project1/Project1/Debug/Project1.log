@@ -1,2 +1,7 @@
-﻿  postfix.cpp
-  Project1.vcxproj -> C:\Github\DataStructure_2020_1\vsProject\Project1\Debug\Project1.exe
+﻿  listdbl.cpp
+C:\Github\DataStructure_2020_1\psets\pset08\listdbl.cpp(339,8): warning C4101: 'node' :참조되지 않은 지역 변수입니다.
+  listdblDriver.cpp
+  listsort.cpp
+  quicksort.cpp
+  코드를 생성하고 있습니다...
+LINK : fatal error LNK1104: 'nowic.lib' 파일을 열 수 없습니다.

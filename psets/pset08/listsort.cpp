@@ -1,6 +1,7 @@
-// quicksort.cpp by idebtor@gmail.com
-// A typical recursive implementation of quick sort
-// 2018.12.15
+/*
+*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+*  Signed: Kim Woo Bin   Student Number: 21600124
+*/
 
 #include <iostream>
 #include "listdbl.h"
@@ -12,6 +13,8 @@ using namespace std;
 #define DPRINT(func) ;
 #endif
 
+int ascending(int, int);
+int descending(int, int);
 
 // This function takes last element as pivot, places the pivot element at its
 // correct position in sorted array, and places all smaller (smaller than pivot)
@@ -122,4 +125,35 @@ void selectionSort(pList p, int(*comp)(int, int)) {
 	}
 
 	DPRINT(cout << "<selctionSort N=" << size(p) << endl;);
+}
+
+//=========================Quick sort from lab05===============================
+
+
+int partition(int list[], int lo, int hi, int(*comp)(int, int)) {
+	int x = list[hi];  // pivot
+	int i = (lo - 1);  // Index of smaller element
+
+	for (int j = lo; j <= hi - 1; j++) {
+		// If current element is smaller than or equal to pivot
+		if (comp(x, list[j]) > 0) {
+			i++;    // increment index of smaller element
+			std::swap(list[i], list[j]);  // Swap current element with index
+		}
+	}
+	std::swap(list[i + 1], list[hi]);
+	return (i + 1);
+}
+
+void _quickSort(int *list, int lo, int hi, int N, int(*comp)(int, int)) {
+	if (lo < hi) 	{
+		int pi = partition(list, lo, hi, comp); // Partitioning index
+		DPRINT(for (int x = 0; x < N; x++) cout << list[x] << " "; cout << endl;);
+		_quickSort(list, lo, pi - 1, N, comp);
+		_quickSort(list, pi + 1, hi, N, comp);
+	}
+}
+
+void quickSort(int *a, int n, int(*comp)(int, int)) {
+	_quickSort(a, 0, n - 1, n, comp);
 }

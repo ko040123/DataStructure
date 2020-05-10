@@ -2,23 +2,6 @@
 *  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
 *  Signed: Kim Woo Bin   Student Number: 21600124
 */
-/*
-* 04/20/20: show, show_n added
-*
-* 1. This implements a doubly linked list with two sentinel nodes which
-*    provide with benifits of coding consistency and easy maintenance.
-* 2. It does not implment C++ iterator (which is deprecated), but simulated
-*    most of memeber functions defined in std::List.
-*
-* The following command removes some invisible bad character in the code file.
-*    iconv -f utf-8 -t utf-8 -c file.txt
-* will clean up UTF-8 file, skipping all the invalid characters in the cpp file.
-*    -f is the source format
-*    -t is the target format
-*    -c skips any invalid sequence
-*    -o sets for different output file
-*
-*/
 
 #include <iostream>
 #include <cassert>
@@ -221,34 +204,32 @@ void push_backN(pList p, int N, int value) {
 }
 
 /////////////////////// unique, reverse, shuffle ///////////////
-// removes extra nodes that have duplicate values from the list.
-// It removes all but the first node from every consecutive group
-// of equal nodes. Notice that a node is only removed from the
-// list if it compares equal to the node immediately preceding it.
-// Thus, this function is especially useful for sorted lists. O(n)
+
 void unique(pList p) {
 	DPRINT(cout << ">unique N=" << size(p) << endl;);
 	if (size(p) <= 1) return;
-
-	cout << "your code here\n";
-
+	for(pNode x = begin(p); x != end(p); x = x->next){
+		if(x->data == x->prev->data) {
+			x = x -> prev;
+			erase(p, x->next);
+		}
+	}
 	DPRINT(cout << "<unique";);
 }
 
-// reverses the order of the nodes in the list.
-// The entire operation does not involve the construction and
-// destruction of any element. Nodes are not moved, but poiters
-// are moved within the list. O(n)
 void reverse(pList p) {
 	DPRINT(cout << ">reverse\n";);
 	if (size(p) <= 1) return;
 
-	// Using a loop, swap prev and next in every node in the list
-	// including two sentinel nodes.
-	// Once finished, then, swap two sentinel nodes.
-
-	cout << "your code here\n";
-
+	pNode curr, temp;
+	for(curr = p->head; curr != nullptr; curr = curr -> prev){
+		temp = curr -> next;
+		curr -> next = curr -> prev;
+		curr -> prev = temp;
+	}
+	temp = p -> tail;
+	p -> tail = p -> head;
+	p-> head = temp;
 	DPRINT(cout << "<reverse\n";);
 }
 
@@ -262,8 +243,25 @@ void shuffle(pList p) {
 	DPRINT(cout << ">shuffle\n";);
 	if (size(p) <= 1) return;    // nothing to shuffle
 
-	cout << "your code here\n";
+	pNode mid = half(p);
+	pNode que = begin(p);
 
+	mid->prev->next = nullptr;
+	p->head->next = mid;
+	mid->prev = p->head;
+	mid = mid->next;
+	while(que != nullptr){
+		pNode mid_next = mid->next;
+		pNode que_next = que->next;
+
+		que->prev = mid->prev;
+		mid->prev->next = que;
+		que->next = mid;
+		mid->prev = que;
+
+		mid = mid_next;
+		que = que_next;
+	}
 	DPRINT(cout << "<shuffle\n";);
 }
 
@@ -352,56 +350,49 @@ void push_sortedN(pList p, int N) {
 }
 
 
-
-// 3. Merge two lists. - This process is O(n).
-//    Compare two values from the list and vals one by one.
-//    For example, if sorted ascending and vals is smaller,
-//    insert the vals into the list and go for the next val.
-//    the list pointer does not increment.
-//    If vals is larger, then the list pointer increment, but
-//    vals index does not increment.
-// 4. If the list is exhausted, then exit the loop. If vals
-//    is not exhausted, insert the rest of vals at the end
-//    of the list.
-//    Make sure that you go through a loop the list and vals
-//    together once. This is the same concept used in the
-//    most famous "mergesort" algorithm except recursion.
-// The values for new nodes are randomly generated in the range of
-// [0..(N + size(p))). You may use rand_extended().
 void push_sortedNlog(pList p, int N) {
 	DPRINT(cout << "<push_sortedNlog N=" << N << endl;);
 
 	int psize = size(p);
 	int range = N + psize;
 	int* vals = new int[N];
-	pNode curr = p->head;
+	pNode curr = begin(p);
 
 	srand((unsigned)time(NULL));	// initialize random seed
 
 	for(int i = 0; i < N; i++){
 		vals[i] = rand_extended(range) % range;
 	}
+
 	if(sorted(p,ascending)){
 		quickSort(vals, N, ascending);
+
 		for(int i = 0; i < N; i++){
-			while(curr != last(p)){
-				if(vals[i] - curr->next->data <= 0){
+			while(curr != end(p)){
+				if(vals[i] - curr->data <= 0){
 				  insert(curr,vals[i]);
 					break;
 				}
 				curr = curr->next;
 			}
+			if(curr == end(p)){
+				push_back(p, vals[i]); // at end of listnode.
+			}
 		}
 	}
 	else{
 		quickSort(vals, N, descending);
+
 		for(int i = 0; i < N; i++){
-			while(curr != last(p)){
-				if(vals[i] - curr->next->data >= 0){
+			while(curr != end(p)){
+				if(vals[i] - curr->data >= 0){
 				  insert(curr,vals[i]);
 					break;
 				}
 				curr = curr->next;
+			}
+			if(curr == end(p)){
+				push_back(p, vals[i]); // at end of listnode.
 			}
 		}
 	}
