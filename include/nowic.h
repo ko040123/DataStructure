@@ -57,5 +57,4 @@ char GetChar(std::string prompt = "Enter a character: ");
  */
 std::string GetString(std::string prompt = "Enter a string: ");
 
-
 #endif
