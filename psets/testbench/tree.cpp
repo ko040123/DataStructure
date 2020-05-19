@@ -55,7 +55,7 @@ int degree(tree t) {
 	return d;
 }
 
-// returns the max depth of a tree. It is the same as the number of edges 
+// returns the max depth of a tree. It is the same as the number of edges
 // along the longest path from the root node down to the farthest leaf node.
 // height = -1 for empty tree, 0 for root only tree
 int height(tree node) {
@@ -137,7 +137,7 @@ tree findBT(tree root, int key) {
 }
 
 // returns true if the node x is found and the path from node x to root
-// Do not call finaPath() and reverse it. 
+// Do not call finaPath() and reverse it.
 bool findPathBack(tree root, tree x, vector<int>& path) {
 	if (root == nullptr) return false;
 
@@ -146,9 +146,9 @@ bool findPathBack(tree root, tree x, vector<int>& path) {
 	return false;
 }  // path from node x to root is produced.
 
-// returns true if the node x is found and a vector loaded with a path 
+// returns true if the node x is found and a vector loaded with a path
 // from root to the node x
-// Do not call finaPathBack() and reverse it. 
+// Do not call finaPathBack() and reverse it.
 bool findPath(tree node, tree x, vector<int>& path) {
 	DPRINT(cout << ">findPath size=" << path.size() << endl;);
 	if (empty(node)) return false;
@@ -186,16 +186,16 @@ tree grow(tree node, int key) {
 // inserts a node with the key and returns the root of the binary tree.
 // Traversing it in level order, find the first empty node in the tree.
 //
-// The idea is to do iterative level order traversal of the given tree 
-// using queue. 
+// The idea is to do iterative level order traversal of the given tree
+// using queue.
 // First, push the root to the queue. Then, while the queue is not empty,
 // Get the front() node on the queue. Check that the left or right is nullptr.
-// If the left child of the node is empty, make new key as left child of 
-// the node.– breakand return;  else add it to queue to process later 
-// since it is not nullptr. If the right child is empty, make new key 
-// as right child of the node.– breakand return; else add it to queue 
-// to process later since it is not nullptr.  Make sure that you pop 
-// the queue finished. Do this until you find a node whose either 
+// If the left child of the node is empty, make new key as left child of
+// the node.– breakand return;  else add it to queue to process later
+// since it is not nullptr. If the right child is empty, make new key
+// as right child of the node.– breakand return; else add it to queue
+// to process later since it is not nullptr.  Make sure that you pop
+// the queue finished. Do this until you find a node whose either
 // left or right is empty.
 tree growBT(tree root, int key) {
 	DPRINT(cout << ">growBT key=" << key << endl;);
@@ -233,7 +233,7 @@ tree trim(tree node, int key) {
 		node->left = trim(node->left, key);
 	else if (key > node->key) // node to trim is in right subtree.
 		node->right = trim(node->right, key);
-	// found the key: delete the node now 
+	// found the key: delete the node now
 	// node with two childeren: replace it with the successor or predecessor
 	else if (node->left && node->right) {
 
@@ -271,7 +271,7 @@ tree minimum(tree node) {			// returns min node
 }
 
 // Given a binary tree, return the max key in the tree.
-tree maximumBT(tree node) {			
+tree maximumBT(tree node) {
 	if (node == nullptr) return node;
 	cout << "your code here\n";
 	return nullptr;
@@ -312,9 +312,9 @@ void preorder(tree node, vector<int>& v) {
 	DPRINT(cout << "<preorder key=" << node->key << endl;);
 }
 
-// returns its nodes in level-order passed back through the argument v 
-// which is passed by reference. This is also called breadth-first 
-// search(BFS), as the search broadened as much as possible on each 
+// returns its nodes in level-order passed back through the argument v
+// which is passed by reference. This is also called breadth-first
+// search(BFS), as the search broadened as much as possible on each
 // depth before going to the next depth(level or height).
 // Use std::queue to store the nodes during traverse the tree.
 // Using queue requires extra space to save nodes in the queue.
@@ -334,8 +334,12 @@ tree LCA_BT(tree root, tree p, tree q) {  // recursive solution
 	DPRINT(cout << ">LCA_BT" << endl;);
 	// base case 1: no p or q found
 	if (root == nullptr) return nullptr;
+	if (root == p || root == q) return root;
+	//recursive case
+	tree nodeL = LCA_BT(root->left,p,q);
+	tree nodeR = LCA_BT(root->right,p,q);
+	//trace back
 
-	cout << "your code here\n";
 
 	return root;
 }
@@ -350,13 +354,13 @@ int LCA_BTiteration(tree root, tree p, tree q) {  // recursive solution
 }
 
 // returns LCA(Least Common Ancestor) of a binary search tree
-// The lowest common ancestor is defined between two nodes pand q as the 
-// lowest node in T that has both pand q as descendants(where we allow a 
+// The lowest common ancestor is defined between two nodes pand q as the
+// lowest node in T that has both pand q as descendants(where we allow a
 // node to be a descendant of itself). Given BST, two descedents p and q,
 // root = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], p=2, q=8, then output=6
-// root = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], p=2, q=4, then output=2 
+// root = [6, 2, 8, 0, 4, 7, 9, null, null, 3, 5], p=2, q=4, then output=2
 // since a node can be a descendent of itself according to the LCA definition.
-// Notice that both p and q exist and are unique in a given tree by definition. 
+// Notice that both p and q exist and are unique in a given tree by definition.
 tree LCA(tree root, tree p, tree q) {  // recursive solution
 	DPRINT(cout << ">LCA" << endl;);
 
@@ -393,7 +397,7 @@ bool isBST(tree x, int min, int max) {
 // returns true if the tree is a binary search tree, otherwise false.
 bool isBST(tree root) {
 	if (empty(root)) return true;
-	bool result = isBST(root, INT_MIN, INT_MAX);  
+	bool result = isBST(root, INT_MIN, INT_MAX);
 	DPRINT(cout << "<isBST result=" << result << endl;);
 	return result;
 }
@@ -410,13 +414,13 @@ void get_keys(tree root, set<int> &keys) {
 }
 
 //////////////////////////////////////////////////////////////////
-// define helper functions here to get/set keys for BTtoBST() 
+// define helper functions here to get/set keys for BTtoBST()
 
-// returns a BST converted from a binary tree in-place. 
+// returns a BST converted from a binary tree in-place.
 // Use a vector or set in STL. Do not use an array to store keys.
 void BTtoBST(tree root) {
 	DPRINT(cout << ">BTtoBST" << endl;);
-	
+
 	cout << "your code here\n";
 
 	DPRINT(cout << ">BTtoBST" << endl;);
@@ -425,8 +429,8 @@ void BTtoBST(tree root) {
 ///////////////// stress test - insert, trim ////////////////////
 
 // returns an extended random number of which the range is from 0
-// to (RAND_MAX + 1)^2 - 1. // We do this since rand() returns too 
-// small range [0..RAND_MAX) where RAND_MAX is usually defined as 
+// to (RAND_MAX + 1)^2 - 1. // We do this since rand() returns too
+// small range [0..RAND_MAX) where RAND_MAX is usually defined as
 // 32767 in cstdlib. Refer to the following link for details
 // https://stackoverflow.com/questions/9775313/extend-rand-max-range
 unsigned long rand_extended(int range) {
@@ -602,9 +606,9 @@ tree buildAVL(tree* v, int n) {  // recycling method
 }
 
 // reconstructs a new AVL tree in O(n), Actually it is O(n) + O(n).
-// Use the recreation method if the size is less than or equal to 10 
+// Use the recreation method if the size is less than or equal to 10
 // Use the recycling method if the size is greater than 10.
-// recreation method: creates all nodes again from keys 
+// recreation method: creates all nodes again from keys
 // recycling method: reuses all the nodes, no memory allocation needed
 tree reconstruct(tree root) {
 	DPRINT(cout << ">reconstruct " << endl;);
@@ -619,7 +623,7 @@ tree reconstruct(tree root) {
 	else {                    // recreation method
 		                      // use inorder() that returns keys sorted
 	                          // O(n), v.data() - the array of keys(int) sorted
-		                      // clear root 
+		                      // clear root
 		// root = buildAVL(v.data(), (int)v.size()); // O(n)
 	}
 	DPRINT(cout << "<reconstruct " << endl;);
@@ -667,7 +671,7 @@ tree trimAVL(tree node, int key) {
 
 
 ///////////////////// helper functions /////////////////////////////////
-// prints elements present in a vector in a line, show_n items per line 
+// prints elements present in a vector in a line, show_n items per line
 void show_vector(vector<int> vec, int show_n) {
 	size_t size = vec.size();
 	if (size < show_n)
@@ -680,4 +684,3 @@ void show_vector(vector<int> vec, int show_n) {
 			cout << vec[i] << " ";
 	}
 }
-

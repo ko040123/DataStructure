@@ -95,8 +95,9 @@ tree clear(tree t) {
 // search a key in binary search tree(BST) recursively.
 bool contains(tree node, int key) {
 	if (empty(node)) return false;
-	cout << "your code here \n";
-	return true;
+	if (key == node->key) return true;
+	if (key < node->key) return contains(node->left, key);
+	return contains(node->right, key);
 }
 
 // does there exist a node with given key?
@@ -190,8 +191,9 @@ tree findParent(tree t, int key, tree parent) {
 tree grow(tree node, int key) {
 	DPRINT(cout << ">grow key=" << key << endl;);
 	if (node == nullptr) return new TreeNode(key);
+	if (key < node->key) node->left = grow(node->left, key);
+	else if (key > node->key) node->right = grow(node->right, key);
 
-	cout << "your code here\n";
 
 	// do nothing, the duplicate key is not allowed
 	DPRINT(cout << "<grow returns key=" << node->key << endl;);
@@ -417,18 +419,34 @@ tree LCA_BT(tree root, tree p, tree q) {  // recursive solution
 	DPRINT(cout << ">LCA_BT" << endl;);
 	// base case 1: no p or q found
 	if (root == nullptr) return nullptr;
-
-	cout << "your code here\n";
+	if (root == p || root == q) return root;
+	//recursive case
+	tree nodeL = LCA_BT(root->left,p,q);
+	tree nodeR = LCA_BT(root->right,p,q);
+	//trace back
+	if(nodeL == nullptr && nodeR == nullptr) return nullptr;
+	else if(nodeL == nullptr) return nodeR;
+	else if(nodeR == nullptr) return nodeL;
 
 	return root;
 }
 
 // returns LCA(Least Common Ancestor) of a binary tree [BT]
-int LCA_BTiteration(tree root, tree p, tree q) {  // recursive solution
+int LCA_BTiteration(tree root, tree p, tree q) {
 	DPRINT(cout << ">LCA_BTiteration" << endl;);
-
-	cout << "your code here\n";
-
+	vector<int> vec1, vec2;
+	int temp = 0;
+	if(findPathBack(root, p, vec1) && findPathBack(root, q, vec2)){
+		while(!vec1.empty() && !vec2.empty()){
+			if(vec1.back() == vec2.back()){
+				temp = vec1.back();
+				vec1.pop_back();
+				vec2.pop_back();
+			}
+			else{break;}
+		}
+		return temp;
+	}
 	return 0;
 }
 
@@ -615,32 +633,32 @@ bool isAVL(tree root) {
 	return _isAVL(root);
 }
 
-tree rotateLL(tree node) {
-	DPRINT(cout << "\t[LL]case at " << node->key << endl;);
-	cout << "\t[LL]case at " << node->key << endl;
+tree rotateLL(tree A) {
+	DPRINT(cout << "\t[LL]case at " << A->key << endl;);
+	cout << "\t[LL]case at " << A->key << endl;
 	cout << "your code here\n";
-	return nullptr;
+	return A;
 }
 
-tree rotateRR(tree node) {
-	DPRINT(cout << "\t[RR]case at " << node->key << endl;);
-	cout << "\t[RR]case at " << node->key << endl;
+tree rotateRR(tree A) {
+	DPRINT(cout << "\t[RR]case at " << A->key << endl;);
+	cout << "\t[RR]case at " << A->key << endl;
 	cout << "your code here\n";
-	return nullptr;
+	return A;
 }
 
-tree rotateLR(tree node) {
-	DPRINT(cout << "\t[LR]case at " << node->key << endl;);
-	cout << "\t[LR]case at " << node->key << endl;
+tree rotateLR(tree A) {
+	DPRINT(cout << "\t[LR]case at " << A->key << endl;);
+	cout << "\t[LR]case at " << A->key << endl;
 	cout << "your code here\n";
-	return nullptr;
+	return A;
 }
 
-tree rotateRL(tree node) {
-	DPRINT(cout << "\t[RL]case at " << node->key << endl;);
-	cout << "\t[RL]case at " << node->key << endl;
+tree rotateRL(tree A) {
+	DPRINT(cout << "\t[RL]case at " << A->key << endl;);
+	cout << "\t[RL]case at " << A->key << endl;
 	cout << "your code here\n";
-	return nullptr;
+	return A;
 }
 
 // rebalnces at the node only, not recursively, and
@@ -648,16 +666,16 @@ tree rotateRL(tree node) {
 tree rebalance(tree node) {
 	DPRINT(cout << ">rebalance at:" << node->key << endl;);
 
-	int diff = balanceFactor(node);
-#ifdef DEBUG
-	if (diff >= 2 || diff <= -2) {
-		treeprint(node);
-		cout << " Need rebalancing at " << node->key << endl;
-	}
-#endif
+	int bf = balanceFactor(node);
+// #ifdef DEBUG
+// 	if (diff >= 2 || diff <= -2) {
+// 		treeprint(node);
+// 		cout << " Need rebalancing at " << node->key << endl;
+// 	}
+// #endif
 	cout << "your code here\n";
 
-	DPRINT(cout << "<rebalance returning" << endl;);
+	DPRINT(cout << "<no rebalance" << endl;);
 	return node;
 }
 
