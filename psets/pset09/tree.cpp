@@ -274,12 +274,31 @@ tree trim(tree node, int key) {
 		node->right = trim(node->right, key);
 	// found the key: delete the node now
 	// node with two childeren: replace it with the successor or predecessor
-	else if (node->left && node->right) {
-
-		cout << "your code here\n";
+	else if (node->left && node->right) {//two children
+		// compare height(left, right)
+		// left: trim predecessor
+		if(height(node->left) >= height(node->right)){
+			node->left = trim(node->left, value(pred(node->left)));
+		}
+		else{// right: trim successor
+			node->right = trim(node->right, value(succ(node->right)));
+		}
 
 	}
-
+	else if(node->left){//one children(left)
+		tree temp = node->left;
+		delete node;
+		return temp;
+	}
+	else if(node->right){//one children(right)
+		tree temp = node->right;
+		delete node;
+		return temp;
+	}
+	else{//no children
+		delete node;
+		return nullptr;
+	}
 	DPRINT(if (node != nullptr) cout << "<trim returns: key=" << node->key << endl;);
 	DPRINT(if (node == nullptr) cout << "<trim returns: nullptr)\n";);
 	return node;
@@ -287,13 +306,15 @@ tree trim(tree node, int key) {
 
 // returns a successor of the tree
 tree succ(tree node) {
-	cout << "your code here\n";
+	if (node != nullptr && node->right != nullptr)
+		return minimum(node->right);
 	return nullptr;
 }
 
 // returns a predeccessor of the tree
 tree pred(tree node) {
-	cout << "your code here\n";
+	if (node != nullptr && node->left != nullptr)
+		return maximum(node->left);
 	return nullptr;
 }
 
