@@ -30,7 +30,7 @@
 *   root = grow(root, 1);
 *   root = grow(root, 3);	// a new node is added
 *   root = trim(root, 5);	// if first node is removed,
-*                           // the new root is returned
+*                         // the new root is returned
 */
 
 #include <iostream>
@@ -602,7 +602,7 @@ tree growN(tree root, int N, bool AVLtree) {
 	for (int i = 0; i < N; i++) root = grow(root, arr[i]);
 
 	////////////// use this line with AVL code completion /////////
-	if (AVLtree) root = reconstruct(root);
+	//if (AVLtree) root = reconstruct(root);
 
 	delete[] arr;
 	DPRINT(cout << "<growN size=" << size(root) << endl;);
@@ -614,8 +614,15 @@ tree growN(tree root, int N, bool AVLtree) {
 // For AVL tree, use BST trim() and reconstruct() once at root.
 tree trimN(tree root, int N, bool AVLtree) {
 	DPRINT(cout << ">trimN N=" << N << endl;);
+	vector<int> v;
+	inorder(root, v);
+	if(v.size() < N) N = v.size;
 
-	cout << "your code here\n";
+	shuffle(v.data(),v.size());
+
+	for(int i = 0; i < N; i++){
+		trim(root,v[i]);
+	}
 
 	////////////// use this line with AVL code completion /////////
 	// if (AVLtree) root = reconstruct(root);

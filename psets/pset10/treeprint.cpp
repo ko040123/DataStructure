@@ -1,44 +1,44 @@
 
 /** File: treeprint.cpp
- * implements printing a binary tree on console graphically. 
+ * implements printing a binary tree on console graphically.
  *
  * @Author: Youngsup Kim, idebtor@gmail.com
- * 2016/04/15	Adapted from   
+ * 2016/04/15	Adapted from
  *				http://web.archive.org/web/20071224095835/http://www.
  *				openasthra.com/wp-content/uploads/2007/12/binary_trees1.c
  * 2016/05/05	added the back slash problem in console using Hangul
- * 2019/05/05	added treeprint_levelorder() - recursive version 
- * 
- * The original code was modified to hide pointer related 
+ * 2019/05/05	added treeprint_levelorder() - recursive version
+ *
+ * The original code was modified to hide pointer related
  * information in the tree structure for easy programming.
  *
- * In order to use the functionality, compile this file with  
- * your source code and include the following function prototype 
+ * In order to use the functionality, compile this file with
+ * your source code and include the following function prototype
  * in your code;
- * 1. void treeprint(tree root); 
- * 2. TreeNode structure must have left/right nodes and int key as 
- *    its members. For example, 
+ * 1. void treeprint(tree root);
+ * 2. TreeNode structure must have left/right nodes and int key as
+ *    its members. For example,
  *    struct TreeNode {
  *		int			key;
- *		TreeNode*	left;		
+ *		TreeNode*	left;
  *		TreeNode*	right;
  *    };
  *    using tree = TreeNode*;
  *
- * In default cmd window may not display \ (back slash properly). 
- * One way to fix this problem is to replace the default font 
- * with a true type font. 
+ * In default cmd window may not display \ (back slash properly).
+ * One way to fix this problem is to replace the default font
+ * with a true type font.
  * This web site shows how to:  http://www.diskool.com/508379
  *
  * In case, if is unavailable, download and install the font.
  * http://dev.naver.com/projects/nanumfont/download
- * Start regedit to change the registry and move to 
+ * Start regedit to change the registry and move to
  * [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion
- *  \Console\TrueTypeFont] 
- * Change 949 - ±¼¸²Ã¼ to 949 - ³ª´®°íµñÄÚµù
- * Reboot the machine. 
- * Start cmd window, change its property font to use '³ª´®°íµñÄÚµù'.
- * 
+ *  \Console\TrueTypeFont]
+ * Change 949 - ï¿½ï¿½ï¿½ï¿½Ã¼ to 949 - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+ * Reboot the machine.
+ * Start cmd window, change its property font to use 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½'.
+ *
  */
 
 #include <iostream>
@@ -56,7 +56,7 @@ struct PrintTree {    // treeprint structure
 	int edge_length; //length of the edge from this node to its children
 	int height;
 	int lablen;
-	int parent_dir;  //-1=I am left, 0=I am root, 1=right   
+	int parent_dir;  //-1=I am left, 0=I am root, 1=right
 	std::string label;
 };
 using ptree = PrintTree*;
@@ -66,7 +66,7 @@ using ptree = PrintTree*;
 int lprofile[MAX_HEIGHT];
 int rprofile[MAX_HEIGHT];
 
-int gap = 3;        //adjust gap between left and right nodes					
+int gap = 3;        //adjust gap between left and right nodes
 int print_next;     //x coordinate of the next char printed, used
 					//for printing next node in the same level
 
@@ -137,7 +137,7 @@ void compute_rprofile(ptree node, int x, int y) {
 	compute_rprofile(node->right, x + node->edge_length + 1, y + node->edge_length + 1);
 }
 
-//This function fills in the edge_length and 
+//This function fills in the edge_length and
 //height fields of the specified tree
 void compute_edge_lengths(ptree node) {
 	int h, hmin, i, delta;
@@ -172,7 +172,7 @@ void compute_edge_lengths(ptree node) {
 			delta = MAX(delta, gap + 1 + rprofile[i] - lprofile[i]);
 
 		//If the node has two children of height 1, then we allow the
-		//two leaves to be within 1, instead of 2 
+		//two leaves to be within 1, instead of 2
 		if (((node->left != nullptr && node->left->height == 1) ||
 			(node->right != nullptr && node->right->height == 1)) && delta>4)
 			delta--;
@@ -217,7 +217,7 @@ void print_level(ptree node, int x, int level) {
 			for (i = 0; i<(x - print_next + (level)); i++) printf(" ");
 
 			print_next += i;
-			printf("\\");   
+			printf("\\");
 			print_next++;
 		}
 	}

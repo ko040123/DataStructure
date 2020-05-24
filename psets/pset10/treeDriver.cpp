@@ -14,7 +14,7 @@
 *   tree left = new TreeNode(1);
 *   tree right = new TreeNode(2);
 *   tree root - new TreeNode(3, left, right);
-* or   
+* or
 *   tree root = grow(nullptr, 2);
 *   root = grow(root, 1);
 *   root = grow(root, 3);	// a new node is added
@@ -22,8 +22,8 @@
 *                           // the new root is returned
 * Note:
 * Creating or rebalancing tree with a lot of nodes requires a large stack.
-* For example, with 16M (or 16777216) stack, I was able to create a tree 
-* with two million nodes and rebalance it. 
+* For example, with 16M (or 16777216) stack, I was able to create a tree
+* with two million nodes and rebalance it.
 *
 * For visual studio: Project Properties->Linkers->System->Stack Reserve Size
 *
@@ -49,7 +49,7 @@ void treeprint(tree root);				// print tree on console graphically
 void treeprint_levelorder(tree root);	// print tree in levelorder
 void treeprint_levelorder_tasty(tree root);	// print tree in levelorder
 
-// returns a tree built by command-line arguments, for example 5 7 3 8 2 6 4 
+// returns a tree built by command-line arguments, for example 5 7 3 8 2 6 4
 tree build_tree_by_args(int argc, char *argv[], int& tree_type) {
 	if (argc < 2) return nullptr;
 
@@ -101,7 +101,7 @@ string treespecs(tree root) {
 	ss << " height:" << height(root);
 
 	bool BSTtree = isBST(root);
-	tree(*fp)(tree);   
+	tree(*fp)(tree);
 	fp = BSTtree ? minimum : minimumBT;
 	ss << " min:" << value(fp(root));
 	fp = BSTtree ? maximum : maximumBT;
@@ -156,7 +156,7 @@ int main(int argc, char **argv) {
 		root = build_tree_by_args(argc, argv, treeTypeBuilt);
 		if (treeTypeBuilt == BT_MODE)
 			AVLtree = BSTtree = false;
-		else if (treeTypeBuilt == AVL_MODE) 
+		else if (treeTypeBuilt == AVL_MODE)
 			AVLtree = BSTtree = true;
 		else
 			BSTtree = true;
@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
 			cout << "\n\t" << (AVLtree ? menuAVL : menuBST) << treespecs(root) << endl;
 		else
 			cout << "\n\t" << menuBT << treespecs(root) << endl;
-		
+
 		cout << "\tg - grow\t"; 				  cout << "\ta - grow a leaf    [BT]\n";
 		cout << "\tt - trim*\t"; 				  cout << "\td - trim a leaf    [BT]\n";
 		cout << "\tG - grow N\t";                 cout << "\tA - grow by Level  [BT]\n";
@@ -177,10 +177,10 @@ int main(int argc, char **argv) {
 		cout << "\tr - rebalance tree**";         cout << "\tl - traverse       [BT]\n";
 		cout << "\tL - LCA*       \t";            cout << "\tB - LCA*           [BT]\n";
 		cout << "\tm - menu [BST]/[AVL]**";       cout << "\tC - convert BT to BST*\n";
-		cout << "\tc - clear\t"; 				  cout << "\ts - show mode:" << showMenu[showMode] << endl; 
-		
+		cout << "\tc - clear\t"; 				  cout << "\ts - show mode:" << showMenu[showMode] << endl;
+
 		c = GetChar("\tCommand(q to quit): ");
-		
+
 		switch (c) {
 		case 'g': // grow
 			if (!BSTtree && !AVLtree) break;
@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
 				do {
 					item = GetInt("\tEnter 0 for left, 1 for right: ");
 				} while (item != 0 && item != 1);
-				(item == 0) ? node->left = new TreeNode(key) 
+				(item == 0) ? node->left = new TreeNode(key)
 					        : node->right = new TreeNode(key);
 			}
 			else {
@@ -232,10 +232,10 @@ int main(int argc, char **argv) {
 			}
 
 			// after adding a node, check and reset the tree status flag.
-			BSTtree = isBST(root);   
+			BSTtree = isBST(root);
 			AVLtree = isAVL(root);
 			break;
-		
+
 		case 'd': // delete a child (it may become an invalid BST/AVL tree)
 			key = GetInt("\tSelect a leaf node to trim: ");
 			x = findBT(root, key);
@@ -250,7 +250,7 @@ int main(int argc, char **argv) {
 			}
 
 			// find its parent and remove this child node
-			node = findParent(root, key, x);  // 
+			node = findParent(root, key, x);  //
 			if (node->left != nullptr && node->left->key == key) {
 				node->left = nullptr;
 				delete x;
@@ -284,7 +284,7 @@ int main(int argc, char **argv) {
 				cout << "\n\tSelect a menu item for BST.\n";
 				break;
 			}
-			// Notice that both p and q exist and are unique in a given tree by definition. 
+			// Notice that both p and q exist and are unique in a given tree by definition.
 			p = GetInt("\tEnter 1st descendent: ");
 			q = GetInt("\tEnter 2nd descendent: ");
 			x = findBT(root, p);
@@ -300,23 +300,23 @@ int main(int argc, char **argv) {
 			key = LCA_BTiteration(root, x, y);  // LCA for BT iteration algorithm
 			cout << "\tLCA(" << p << ", " << q << ") = " << key << " by iteration" << endl;
 			break;
-		
+
 		case 'L':  // LCA - Lowest Common Ancestor
 			if (empty(root)) break;
 			if (!BSTtree) {
 				cout << "\n\tIt is not a BST. Select a menu item for BST\n";
 				break;
 			}
-			// Notice that both p and q exist and are unique in a given tree by definition. 
+			// Notice that both p and q exist and are unique in a given tree by definition.
 			p = GetInt("\tEnter 1st descendent: ");
 			q = GetInt("\tEnter 2nd descendent: ");
-			x = find(root, p); 
-			y = find(root, q); 
+			x = find(root, p);
+			y = find(root, q);
 			if (x == nullptr || y == nullptr) {
 				cout << "\n\tTwo descendents(" << p << ", " << q << ") should be existent.\n";
 				break;
 			}
-			
+
 			node = LCA(root, x, y);          // LCA for BST recursive algorithm
 			cout << "\tLCA(" << p << ", " << q << ") = " << value(node) << " by redcursion"<< endl;
 
@@ -335,7 +335,7 @@ int main(int argc, char **argv) {
 			if (empty(root)) break;
 			item = GetInt("\tEnter a key to find: ");
 			bool (*fp_contains)(tree, int);   // fp for contains() and containsBT()
-			fp_contains = BSTtree ? contains : containsBT; 
+			fp_contains = BSTtree ? contains : containsBT;
 			if (fp_contains(root, item))
 				cout << "\n\t" << item << " is found\n";
 			else
@@ -395,7 +395,7 @@ int main(int argc, char **argv) {
 			root = clear(root);
 			break;
 
-		case 'r':  // rebalance 
+		case 'r':  // rebalance
 			if (!BSTtree)
 				cout << "\n\tSince it is not a BST, we cannot rebalance it.\n";
 			else {
@@ -451,8 +451,8 @@ int main(int argc, char **argv) {
 			show_timeit(begin);
 
 			// after conversion, check and reset the tree status flag.
-			BSTtree = isBST(root);  
-			AVLtree = false;       
+			BSTtree = isBST(root);
+			AVLtree = false;
 			break;
 
 		case 'q':
@@ -464,5 +464,3 @@ int main(int argc, char **argv) {
 	cout << "\n\tJoyful Coding!\n";
 	return EXIT_SUCCESS;
 }
-
-
