@@ -633,10 +633,15 @@ tree growN(tree root, int N, bool AVLtree) {
 	assert(arr != nullptr);
 	randomN(arr, N, start);
 
+	#if 1
 	for (int i = 0; i < N; i++) root = grow(root, arr[i]);
-
 	////////////// use this line with AVL code completion /////////
 	if (AVLtree) root = reconstruct(root);
+
+	#else
+	if(AVLtree) for(int i = 0; i < N; i++) root = growAVL(root,arr[i]);
+	else for(int i = 0; i < N; i++) root = grow(root,arr[i]);
+	#endif
 
 	delete[] arr;
 	DPRINT(cout << "<growN size=" << size(root) << endl;);
@@ -771,7 +776,6 @@ tree buildAVL(int* v, int n) {  // recreation method
 // rebuilds an AVL/BST tree using a list of nodes sorted, no memory allocations
 // v – an array of nodes sorted, n – the array size
 tree buildAVL(tree* v, int n) {  // recycling method
-	cout << "this is buildAVL(recycling)" << endl;
 	if (n <= 0) return nullptr;
 	tree node;
 	int mid = n / 2;

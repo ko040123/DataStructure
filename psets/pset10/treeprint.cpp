@@ -1,8 +1,7 @@
-
-
-
-
-
+/*
+*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+*  Signed: Kim Woo Bin   Student Number: 21600124
+*/
 
 /** File: treeprint.cpp
  * implements printing a binary tree on console graphically.
@@ -77,6 +76,7 @@ int print_next;     //x coordinate of the next char printed, used
 
 int MIN(int X, int Y) { return ((X) < (Y)) ? (X) : (Y); }
 int MAX(int X, int Y) { return ((X) > (Y)) ? (X) : (Y); }
+void show_vector_tasty(vector<int> vec, int show_n);
 
 ptree build_ptree_recursive(tree t) {
 	if (t == nullptr) return nullptr;
@@ -299,6 +299,18 @@ void treeprint_levelorder(tree root) {
 	DPRINT(cout << "<treeprint_levelorder \n";);
 }
 
+void vec_levelorder_tasty(tree root, int level, vector<int>& v) {
+	DPRINT(cout << ">treeprint_levelorder lv=" << level << endl;);
+	if (root == nullptr) return;
+	if (level == 1)
+		v.push_back(root->key);
+	else {
+		vec_levelorder_tasty(root->left, level - 1, v);
+		vec_levelorder_tasty(root->right, level - 1, v);
+	}
+	DPRINT(cout << "<treeprint_levelorder lv=" << level << endl;);
+}
+
 // print the first and the last three levels only
 void treeprint_levelorder_tasty(tree root) {
 	DPRINT(cout << ">treeprint_levelorder_tasty";);
@@ -307,15 +319,33 @@ void treeprint_levelorder_tasty(tree root) {
 
 	// height is less 7, just use levelorder()
 	if (h < 7) return treeprint_levelorder(root);
-
+	vector<int> v;
 	for (int i = 1; i <= 3; i++) {
-		treeprint_levelorder(root, i);
+		vec_levelorder_tasty(root, i, v);
+		show_vector_tasty(v,20);
+		v.clear();
 		cout << endl;
 	}
 	cout << "...left out...\n";
 	for (int i = h - 2; i <= h; i++) {
-		treeprint_levelorder(root, i);
+		vec_levelorder_tasty(root, i, v);
+		show_vector_tasty(v,20);
+		v.clear();
 		cout << endl;
 	}
 	DPRINT(cout << "<treeprint_levelorder_tasty \n";);
+}
+
+void show_vector_tasty(vector<int> vec, int show_n) {
+	size_t size = vec.size();
+	if (size < show_n)
+		for (auto i : vec) cout << i << " ";
+	else {
+		for (int i = 0; i < show_n / 2; ++i)
+			cout << vec[i] << " ";
+		cout << "... ";
+		for (size_t i = size - show_n / 2; i < size; ++i)
+			cout << vec[i] << " ";
+	}
+
 }
