@@ -1,3 +1,7 @@
+/*
+*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+*  Signed: Kim Woo Bin   Student Number: 21600124
+*/
 /** File: heapsort.cpp */
 /* This implements the heap sort algorithm (in-place).
 * A given arbitrary input array goes through two passes.
@@ -47,6 +51,8 @@ using namespace std;
 #define DPRINT(func) ;
 #endif
 
+int count = 0;
+
 // define a function pointer that accepts a int array, int, int as arguments
 bool (*comp)(char*, int, int);
 
@@ -59,23 +65,34 @@ bool more(char* a, int i, int j) {
 }
 
 // swim up to maintain heap-ordered
-void swim(char* a, int k, int N) {
+void swim(char* a, int k, int N, bool (*comp)(char*,int,int)) {
 	DPRINT(cout << ">swim int=" << a[k] << " @ k=" << k << " N=" << N << endl;);
 	int k_saved = k;
+	count = count + 1;
 
-	cout << "your code here\n";
+	while(k > 1 && comp(a, k / 2, k)){
+		swap(a[k/2], a[k]);
+		k = k / 2;
+	}
 
 	cout << "   N=" << N << " k=" << k_saved << " ";
 	for (int i = 1; i <= N; i++) cout << a[i] << " ";
 	cout << endl;
 }
 
-// sink down to maintain heap-ordered 
-void sink(char* a, int k, int N) {
+// sink down to maintain heap-ordered
+void sink(char* a, int k, int N, bool (*comp)(char*,int,int)) {
 	DPRINT(cout << ">sink int=" << a[k] << " @ k=" << k << " N=" << N << endl;);
 	int k_saved = k;
 
-	cout << "your code here\n";
+	while(2 * k <= N){
+		int j = 2 * k;
+		if(j < N && comp(a, j, j+1)) j++;
+		count = count + 2;
+		if(!comp(a, k, j)) break;
+		swap(a[k], a[j]);
+		k = j;
+	}
 
 	cout << "   N=" << N << " k=" << k_saved << " ";
 	for (int i = 1; i <= N; i++) cout << a[i] << " ";
@@ -83,28 +100,30 @@ void sink(char* a, int k, int N) {
 }
 
 // push a node in prority queue (or a heap)
-void grow(char *a, char key, int& N) {
-	cout << "your code here\n";
+void grow(char *a, char key, int& N, bool (*comp)(char*,int,int)) {
+	a[++N] = key;
+	swim(a, N, N, comp);
 }
 
 // pop a node in priority queue (or a heap)
-void trim(char *a, char key, int& N) {
-	cout << "your code here\n";
+void trim(char *a, char key, int& N, bool (*comp)(char*,int,int)) {
+	swap(a[1], a[N--]);
+	sink(a, 1, N, comp);
 }
 
 // construct a heap structure from a CBT.
-void heapify(char *a, int N) {
-	cout << "your code here\n";
+void heapify(char *a, int N, bool (*comp)(char*,int,int)) {
+	for(int currSink = N / 2; currSink >= 1; currSink--)
+		sink(a, currSink, N, comp);
 }
 
-// sort a heap using both heapify() and trim() only. 
-void heapsort(char* a, int N) {
+// sort a heap using both heapify() and trim() only.
+void heapsort(char* a, int N, bool (*comp)(char*,int,int)) {
 	int k;
 	// 1st pass: restore the max heap property
 	// start 'sink' at the last internal node and go up.
 	cout << "1st pass(heapify - O(n)) begins:\n";
-
-	cout << "your code here\n";
+	heapify(a, N, comp);
 
 	cout << "HeapOrdered: ";
 	for (k = 1; k <= N; k++) cout << a[k] << " ";
@@ -112,8 +131,9 @@ void heapsort(char* a, int N) {
 
 	// 2nd pass: get the max out (from root while N > 1)
 	cout << "2nd pass(trim: swap and sink - O(n log n) begins:\n";
-
-	cout << "your code here\n";
+	for(k = N; k > 1; k--){
+		trim(a, a[N], N, comp);
+	}
 }
 
 void show(char* a, int N) {
@@ -125,7 +145,7 @@ void show(char* a, int N) {
 
 // The first element(a[0]) is excluded.
 int main(int argc, char* argv[]) {
-#if 0
+#if 1
   char a[] = { ' ', 'C', 'H', 'R', 'I', 'S', 'T', 'A', 'L', 'O', 'N', 'E', '\0', '\0'};
   int N = sizeof(a) / sizeof(a[0]) - 3;   // -3 because of 1st ' ' and last two '\0'.
 #else
@@ -158,25 +178,31 @@ int main(int argc, char* argv[]) {
 	// ascending order
 	cout << "\nASCENDING:\n";
 	comp = ::less;
-	heapsort(a, N);
+	heapsort(a, N, comp);
 	show(a, N);
 
 	cout << "\nDESCENDING:\n";
 	comp = more;
-	heapsort(a, N);
+	heapsort(a, N, comp);
 	show(a, N);
 
 	cout << "\n\nTest grow() & trim(). Answer the following questions:\n";
 	cout << "1. Now the array is sorted in descending order or a MAXHEAP.\n";
 	cout << "2. Add the code to grow '~' in the MAXHEAP and show the result.\n";
-	cout << "   Recall that you are dealing with a maxheap neow!\n";
+	cout << "   Recall that you are dealing with a maxheap now!\n";
 	cout << "3. Add the code to trim '~' in the MAXHEAP and show the result.\n";
 	cout << "   Now make sure that the array is set as the MAXHEAP back.\n";
 	cout << "4. The exact number of comparisons during grow(~): YOUR ANSWER HERE\n";
 	cout << "5. The exact number of comparisons during trim(~): YOUR ANSWER HERE\n";
 	cout << "6. Do the screen capture to submit.\n";
 
-	cout << "your code here\n";
+	comp = ::less;
+	cout << endl;
+	grow(a, '~', N, comp);
+	show(a, N);
+
+	trim(a, '~', N, comp);
+	show(a, N);
 
 	cout << "\nHappy coding~~\n";
 }
