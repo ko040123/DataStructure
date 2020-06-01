@@ -51,7 +51,6 @@ using namespace std;
 #define DPRINT(func) ;
 #endif
 
-int count = 0;
 
 // define a function pointer that accepts a int array, int, int as arguments
 bool (*comp)(char*, int, int);
@@ -68,7 +67,6 @@ bool more(char* a, int i, int j) {
 void swim(char* a, int k, int N, bool (*comp)(char*,int,int)) {
 	DPRINT(cout << ">swim int=" << a[k] << " @ k=" << k << " N=" << N << endl;);
 	int k_saved = k;
-	count = count + 1;
 
 	while(k > 1 && comp(a, k / 2, k)){
 		swap(a[k/2], a[k]);
@@ -88,7 +86,6 @@ void sink(char* a, int k, int N, bool (*comp)(char*,int,int)) {
 	while(2 * k <= N){
 		int j = 2 * k;
 		if(j < N && comp(a, j, j+1)) j++;
-		count = count + 2;
 		if(!comp(a, k, j)) break;
 		swap(a[k], a[j]);
 		k = j;
@@ -106,7 +103,7 @@ void grow(char *a, char key, int& N, bool (*comp)(char*,int,int)) {
 }
 
 // pop a node in priority queue (or a heap)
-void trim(char *a, char key, int& N, bool (*comp)(char*,int,int)) {
+void trim(char *a, int& N, bool (*comp)(char*,int,int)) {
 	swap(a[1], a[N--]);
 	sink(a, 1, N, comp);
 }
@@ -132,7 +129,7 @@ void heapsort(char* a, int N, bool (*comp)(char*,int,int)) {
 	// 2nd pass: get the max out (from root while N > 1)
 	cout << "2nd pass(trim: swap and sink - O(n log n) begins:\n";
 	for(k = N; k > 1; k--){
-		trim(a, a[N], N, comp);
+		trim(a, N, comp);
 	}
 }
 
@@ -146,7 +143,7 @@ void show(char* a, int N) {
 // The first element(a[0]) is excluded.
 int main(int argc, char* argv[]) {
 #if 1
-  char a[] = { ' ', 'C', 'H', 'R', 'I', 'S', 'T', 'A', 'L', 'O', 'N', 'E', '\0', '\0'};
+  char a[] = { ' ', 'W', 'O', 'O', 'B', 'I', 'N', 'K', 'I', 'M', 'X', 'Y', '\0', '\0'};
   int N = sizeof(a) / sizeof(a[0]) - 3;   // -3 because of 1st ' ' and last two '\0'.
 #else
 	char a[1024], line[1024];
@@ -190,19 +187,24 @@ int main(int argc, char* argv[]) {
 	cout << "1. Now the array is sorted in descending order or a MAXHEAP.\n";
 	cout << "2. Add the code to grow '~' in the MAXHEAP and show the result.\n";
 	cout << "   Recall that you are dealing with a maxheap now!\n";
-	cout << "3. Add the code to trim '~' in the MAXHEAP and show the result.\n";
-	cout << "   Now make sure that the array is set as the MAXHEAP back.\n";
-	cout << "4. The exact number of comparisons during grow(~): YOUR ANSWER HERE\n";
-	cout << "5. The exact number of comparisons during trim(~): YOUR ANSWER HERE\n";
-	cout << "6. Do the screen capture to submit.\n";
-
 	comp = ::less;
 	cout << endl;
 	grow(a, '~', N, comp);
 	show(a, N);
+	cout << endl;
 
-	trim(a, '~', N, comp);
+	cout << "3. Add the code to trim '~' in the MAXHEAP and show the result.\n";
+	cout << "   Now make sure that the array is set as the MAXHEAP back.\n";
+	cout << endl;
+	trim(a, N, comp);
 	show(a, N);
+	cout << endl;
+
+	cout << "4. The exact number of comparisons during grow(~): 2\n";
+	cout << "5. The exact number of comparisons during trim(~): 4\n";
+	cout << "6. Do the screen capture to submit.\n";
+
+
 
 	cout << "\nHappy coding~~\n";
 }
