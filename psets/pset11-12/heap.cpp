@@ -1,5 +1,9 @@
 /*
-* Files: heap.cpp, heap.h, heapDriver.cpp - min/maxheap 
+*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+*  Signed: Kim Woo Bin   Student Number: 21600124
+*/
+/*
+* Files: heap.cpp, heap.h, heapDriver.cpp - min/maxheap
 *        heapv.cpp, heapv.h, heapvDriver.cpp - using std::vector
 *  implements a max/min heap that is used to represent a priority queue.
 *
@@ -100,7 +104,7 @@ void reserve(heap p, int capa) {
 // inserts a new key to the max-heap or min-heap.
 void grow(heap p, int key) {
 	DPRINT(cout << ">grow key=" << key << endl;);
-	
+
 	cout << "your code here\n";
 
 	DPRINT(cout << "<grow N=" << p->N << endl;);
@@ -192,7 +196,7 @@ void sink(heap p, int k) {
 *  Check integrity of heap data structure
 *************************************************************************/
 
-// is it heap-ordered at a node k? 
+// is it heap-ordered at a node k?
 bool heapOrderedAt(heap p, int k) {
 	if (k > p->N) return true; // check it upto the last internal node.
 
@@ -205,7 +209,7 @@ bool heapOrderedAt(heap p, int k) {
 	return heapOrderedAt(p, left) && heapOrderedAt(p, right);
 }
 
-// is it heap-ordered? 
+// is it heap-ordered?
 bool heapOrdered(heap p) {
 	if (empty(p)) return false;
 	return heapOrderedAt(p, 1);
@@ -254,7 +258,7 @@ void growCBT(heap p, int key) {
 // if the size becomes 1/4 of the capacity, reserve it in half.
 void trimCBT(heap p) {
 	DPRINT(cout << ">trimCBT " << endl;);
-	
+
 	cout << "your code here\n";
 
 	DPRINT(cout << "<trimCBT N=" << p->N << endl;);
@@ -274,8 +278,8 @@ void heapify(heap p) {
 }
 
 // returns an extended random number of which the range is from 0
-// to (RAND_MAX + 1)^2 - 1. // We do this since rand() returns too 
-// small range [0..RAND_MAX) where RAND_MAX is usually defined as 
+// to (RAND_MAX + 1)^2 - 1. // We do this since rand() returns too
+// small range [0..RAND_MAX) where RAND_MAX is usually defined as
 // 32767 in cstdlib. Refer to the following link for details
 // https://stackoverflow.com/questions/9775313/extend-rand-max-range
 unsigned long rand_extended(int range) {
@@ -334,7 +338,7 @@ void trimN(heap p, int count, bool heapOrdered) {
 }
 
 ///////////////////// helper functions /////////////////////////////////
-// prints elements present in a vector in a line, show_n items per line 
+// prints elements present in a vector in a line, show_n items per line
 void show_vector(vector<int> vec, int show_n) {
 	size_t size = vec.size();
 	if (size < show_n)
