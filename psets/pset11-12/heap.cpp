@@ -65,8 +65,7 @@ int capacity(heap p) {
 	return p->capacity;
 }
 int height(int n) {
-	cout << "your code here \n";
-	return 0;
+	return (int)log2(n);
 }
 int height(heap p) {
 	return height(size(p));
@@ -145,7 +144,9 @@ void replace(heap p, int oldKey, int newKey) {
 	if (empty(p)) return;
 	DPRINT(cout << ">replace " << oldKey << " --> " << newKey << endl;);
 
-	bool heap_ordere  {
+	bool heap_ordered = heapOrdered(p);
+	for (int i = 1; i <= p->N; i++) {
+		if (oldKey == p->nodes[i]) {
 			p->nodes[i] = newKey;
 			if (heap_ordered) {
 				swim(p, i);
@@ -183,7 +184,7 @@ void swap(heap p, int i, int j) {
 void swim(heap p, int k) { //bool (*comp)(char*,int,int)
 	DPRINT(cout << " swim key=" << p->nodes[k] << " k=" << k << " N=" << p->N << endl;);
 
-	while(k > 1 && ::less(p, k/2, k)){
+	while(k > 1 && p->comp(p, k/2, k)){
 		swap(p, k/2, k);
 		k = k / 2;
 	}
@@ -194,13 +195,13 @@ void sink(heap p, int k) {
 
 	while(2 * k <= p -> N){
 		int j = k * 2;
-		if(j < p -> N && ::less(p, j, j+1)) j++;
-		if(!::less(p, k, j)) break;
-		swap(p, j, j+1);
+		if(j < p -> N && p->comp(p, j, j+1)) j++;
+		if(!p->comp(p, k, j)) break;
+		swap(p, k, j);
 		k = j;
 	}
 #ifdef DEBUG
-	cout << "\tafter sink N=" << p->N << " k=" << endl;
+	cout << "\tafter sink N=" << p->N << " k=" << k << endl;
 	for (k = 1; k <= p->N; k++)
 		cout << p->nodes[k] << " ";
 	cout << endl;
@@ -235,8 +236,10 @@ bool heapOrdered(heap p) {
 // if minheap, it sorts them in descending order
 void heapsort(heap p) {
 	DPRINT(cout << ">heapsort N=" << p->N << endl;);
+	int N_saved = p -> N;
 
-	cout << "your code here\n";
+	while(p -> N > 1){ trim(p); }
+	p -> N = N_saved;
 
 	std::cout << "\n\tSorted: ";
 	for (int i = 1; i <= p->N; i++)
@@ -290,7 +293,8 @@ void heapify(heap p) {
 	// since leaf nodes already satisfy the max/min priority property
 	// This is O(n) algorithm
 
-	cout << "your code here\n";
+	for(int currSink = (int)(p->N / 2); currSink >= 1; currSink--)
+		sink(p, currSink);
 
 	DPRINT(cout << "<heapify" << endl;);
 }
@@ -349,7 +353,7 @@ void growN(heap p, int count, bool heapOrdered) {
 			cout << endl;
 		#endif
 	}
-	delete arr[];
+	delete[] arr;
 	DPRINT(cout << "<growN" << endl;);
 }
 
@@ -368,7 +372,7 @@ void trimN(heap p, int count, bool heapOrdered) {
 
 		#ifdef DEBUG
 			cout << "trimN: ";
-			for (int j = 0; j < size(p); j++) cout << arr[j] << " ";
+			for (int j = 1; j <= size(p); j++) cout << p->nodes[j] << " ";
 			cout << endl;
 		#endif
 	}
