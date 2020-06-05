@@ -14,9 +14,9 @@
 * 3. Loop until the queue is empty
 *    Get a next key from the CBT
 *    Get the front node in the queue.
-*    If the left child of this front node doesn¡¯t exist,
+*    If the left child of this front node doesnï¿½ï¿½t exist,
 *        set the left child as the new node.
-*	 else if the right child of this front node doesn¡¯t exist,
+*	 else if the right child of this front node doesnï¿½ï¿½t exist,
 *        set the right child as the new node.
 * 4. If the front node has both the left child and right child,
 *        dequeue() it.
@@ -46,21 +46,44 @@ tree clear(tree t) {
 	return nullptr;
 }
 
-tree buildBT(int* nodes, int i, int n) {
+tree buildBT(int* nodes, int i, int n) {//recursion
 	DPRINT(std::cout << " buildBT i=" << i << " n=" << n << std::endl;);
 	if (i > n) return nullptr;
 
-	std::cout << "your code here\n";
+	tree root = new TreeNode(nodes[i]);
 
-	return  nullptr;
+	root -> left = buildBT(nodes, i * 2, n);
+	root -> right = buildBT(nodes, (i * 2) + 1, n);
+
+	return  root;
 }
 
-tree buildBT(heap p) {
+tree buildBT(heap p) {//iteration
 	DPRINT(std::cout << " buildBT p" << std::endl;);
+	if(size(p) == 0) return nullptr;
 
-	std::cout << "your code here\n";
+	std::queue<tree> q;
+	int N = size(p);
+	tree root = new TreeNode(p -> nodes[1]);
+	q.push(root);
+	int i = 2;
 
-	return  nullptr;
+	while(i <= N){
+		tree newNode = new TreeNode(p -> nodes[i]);
+		if(q.front() -> left == nullptr)
+			q.front() -> left = newNode;
+		else if(q.front() -> right == nullptr)
+			q.front() -> right = newNode;
+		else{
+			q.pop();
+			if(q.front() -> left == nullptr)	q.front() -> left = newNode;
+			else if(q.front() -> right == nullptr)	q.front() -> right = newNode;
+		}
+		q.push(newNode);
+		i++;
+	}
+
+	return  root;
 }
 
 // print a heap using treeprint() - must build a tree to call treeprint() functions
@@ -69,10 +92,12 @@ void heapprint(heap p, int mode) {
 	if (empty(p)) return;
 	tree root = nullptr;
 
-	// build tree in two different ways for pedagogical purpose 
+	// build tree in two different ways for pedagogical purpose
+
 	if (size(p) % 2 == 0) {
 		cout << "\t[Tree built using recursion]\n";
 		root = buildBT(p->nodes, 1, size(p));  // using recursion
+
 }
 	else {
 		cout << "\t[Tree built using iteration]\n";
@@ -84,7 +109,7 @@ void heapprint(heap p, int mode) {
 		mode = TASTY_MODE;
 	}
 
-	// TASTY_MODE: show just the first and last three levels each 
+	// TASTY_MODE: show just the first and last three levels each
 	if ((height(p) + 1) < 7 && mode == TASTY_MODE)    // height + 1 = level
 		mode = LEVEL_MODE;
 
@@ -95,7 +120,7 @@ void heapprint(heap p, int mode) {
 	case LEVEL_MODE:
 		treeprint_levelorder(root);
 		break;
-	default: // TASTY_MODE: show just the first and last three levels each 
+	default: // TASTY_MODE: show just the first and last three levels each
 		treeprint_levelorder_tasty(root);
 		cout << endl;
 	}

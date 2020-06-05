@@ -105,7 +105,10 @@ void reserve(heap p, int capa) {
 void grow(heap p, int key) {
 	DPRINT(cout << ">grow key=" << key << endl;);
 
-	cout << "your code here\n";
+	if(full(p)) reserve(p, 2 * p -> capacity);
+
+	p -> nodes[++(p -> N)] = key;
+	swim(p, p -> N);
 
 	DPRINT(cout << "<grow N=" << p->N << endl;);
 	return;
@@ -116,7 +119,10 @@ void trim(heap p) {
 	if (empty(p)) return;
 	DPRINT(cout << ">trim\n";);
 
-	cout << "your code here\n";
+	swap(p, 1, (p -> N)--);
+	sink(p, 1);
+
+	if((p -> N) * 4 == (p -> capacity) - 1) reserve(p, (p -> capacity) / 2);
 
 	DPRINT(cout << "<trim N=" << p->N << endl;);
 }
@@ -126,7 +132,9 @@ void trim(heap p) {
 int contains(heap p, int key) {
 	if (empty(p)) return 0;
 
-	cout << "your code here\n";
+	for(int i = 1; i <= p -> N; i++){
+		if(p -> nodes[i] == key) return i;
+	}
 
 	return 0;
 }
@@ -137,9 +145,7 @@ void replace(heap p, int oldKey, int newKey) {
 	if (empty(p)) return;
 	DPRINT(cout << ">replace " << oldKey << " --> " << newKey << endl;);
 
-	bool heap_ordered = heapOrdered(p);
-	for (int i = 1; i <= p->N; i++) {
-		if (oldKey == p->nodes[i]) {
+	bool heap_ordere  {
 			p->nodes[i] = newKey;
 			if (heap_ordered) {
 				swim(p, i);
@@ -174,16 +180,25 @@ void swap(heap p, int i, int j) {
 	swap(p->nodes[i], p->nodes[j]);  // using std::swap()
 }
 
-void swim(heap p, int k) {
+void swim(heap p, int k) { //bool (*comp)(char*,int,int)
 	DPRINT(cout << " swim key=" << p->nodes[k] << " k=" << k << " N=" << p->N << endl;);
-	cout << "your code here\n";
+
+	while(k > 1 && ::less(p, k/2, k)){
+		swap(p, k/2, k);
+		k = k / 2;
+	}
 }
 
 void sink(heap p, int k) {
 	DPRINT(cout << " sink key=" << p->nodes[k] << " k=" << k << " N=" << p->N << endl;);
 
-	cout << "your code here\n";
-
+	while(2 * k <= p -> N){
+		int j = k * 2;
+		if(j < p -> N && ::less(p, j, j+1)) j++;
+		if(!::less(p, k, j)) break;
+		swap(p, j, j+1);
+		k = j;
+	}
 #ifdef DEBUG
 	cout << "\tafter sink N=" << p->N << " k=" << endl;
 	for (k = 1; k <= p->N; k++)
@@ -249,7 +264,9 @@ heap newCBT(int *a, int n) {
 void growCBT(heap p, int key) {
 	DPRINT(cout << ">growCBT key=" << key << endl;);
 
-	cout << "your code here\n";
+	if(full(p)) reserve(p, 2 * p -> capacity);
+
+	p -> nodes[++(p -> N)] = key;
 
 	DPRINT(cout << "<growCBT N=" << p->N << endl;);
 }
@@ -259,8 +276,9 @@ void growCBT(heap p, int key) {
 void trimCBT(heap p) {
 	DPRINT(cout << ">trimCBT " << endl;);
 
-	cout << "your code here\n";
+	(p -> N)--;
 
+	if((p -> N) * 4 == (p -> capacity) - 1) reserve(p, (p -> capacity) / 2);
 	DPRINT(cout << "<trimCBT N=" << p->N << endl;);
 }
 
@@ -319,8 +337,19 @@ void growN(heap p, int count, bool heapOrdered) {
 	int max = empty(p) ? 1 : maximum(p) + 1;
 	void(*insertFunc)(heap h, int key) = heapOrdered ? grow : growCBT;
 
-	cout << "your code here\n";
+	int* arr = new int[count];
+	randomN(max, count, arr);
 
+	for (int i = 0; i < count; i++) {
+		insertFunc(p, arr[i]);
+
+		#ifdef DEBUG
+			cout << "growN: ";
+			for (int j = 0; j < size(p); j++) cout << arr[j] << " ";
+			cout << endl;
+		#endif
+	}
+	delete arr[];
 	DPRINT(cout << "<growN" << endl;);
 }
 
@@ -331,8 +360,18 @@ void growN(heap p, int count, bool heapOrdered) {
 // (4. Print the heap if DEBUG is defined whenever a node is deleted.)
 void trimN(heap p, int count, bool heapOrdered) {
 	DPRINT(cout << ">trimN" << endl;);
+	if(count > size(p)) count = size(p);
+	void(*deleteFunc)(heap h) = heapOrdered ? trim : trimCBT;
 
-	cout << "your code here\n";
+	for(int i = 0; i < count; i++){
+		deleteFunc(p);
+
+		#ifdef DEBUG
+			cout << "trimN: ";
+			for (int j = 0; j < size(p); j++) cout << arr[j] << " ";
+			cout << endl;
+		#endif
+	}
 
 	DPRINT(cout << "<trimN" << endl;);
 }

@@ -114,6 +114,7 @@ void heapify(char *a, int N, bool (*comp)(char*,int,int)) {
 		sink(a, currSink, N, comp);
 }
 
+
 // sort a heap using both heapify() and trim() only.
 void heapsort(char* a, int N, bool (*comp)(char*,int,int)) {
 	int k;
