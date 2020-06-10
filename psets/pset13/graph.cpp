@@ -1,4 +1,8 @@
-/**
+/*
+*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+*  Signed: Kim Woo Bin   Student Number: 21600124
+*/
+/*
 *  The graph.cpp and graph.h implements an undirected/directed graph of
 *  vertices named 0 through V - 1.
 *  It supports the following two primary operations:
@@ -381,7 +385,7 @@ void BFS(graph g, int v) {
 				g->distTo[w->item] = g->distTo[g->parentBFS[w->item]] + 1;
 			}
 		}
-		
+
 	}
 
 	g->BFSv = sav;                // save the result at v
@@ -498,17 +502,24 @@ void DFSpath(graph g, int v, int w, stack<int>& path) {
 	}
 
 	queue<int> q;
+	vector<int> temp;
+
 	DFS(g, v, q);  	             // DFS at v, starting vertex
 	g->DFSv = q;						     // DFS result at v
 
 	path = {};                   // clear path, stack<int>().swap(path);
 															// push v to w path to the stack path
-	while(q.front() != w){
-		path.push(q.front());
+	while(q.front() != w)	{
+		temp.push_back(q.front());
 		q.pop();
 	}
-	path.push(q.front());
+	temp.push_back(q.front());
 	q.pop();
+
+	while(!temp.empty()){
+		path.push(temp.back());
+		temp.pop_back();
+	}
 
 	DPRINT(cout << "<DFSpath " << endl;);
 }
@@ -523,7 +534,10 @@ void BFSpath(graph g, int v, int w, stack<int>& path) {
 	BFS(g, v);                   // g->BFSv updated already.
 
 	path = {};                   // clear path, stack<int>().swap(path);
-	cout << "your code here\n";  // push v to w path to the stack path
+	 															// push v to w path to the stack path
+  for(int cur = w; cur != v; cur = g->parentBFS[cur])
+		path.push(cur);
+	path.push(v);
 
 	DPRINT(cout << "<BFSpath " << endl;);
 }
@@ -741,11 +755,22 @@ void BFS2Coloring(graph g) {
 	DPRINT(cout << ">BFS2Coloring" << endl;);
 	queue<int> que;
 	int v = 0;
+	//Many components case -> separate w/ CCID
 	que.push(v);
 
-	// while (!que.empty()) {
-	cout << "your code here \n";
-	// }
+	while (!que.empty()) {
+		int cur = que.front(); que.pop();  // remove it since processed
+		for (gnode w = g->adj[cur].next; w; w = w->next) {
+			if (!g->marked[w->item]) {
+				DPRINT(cout << w->item << " ";);
+				g->marked[w->item] = true;
+				que.push(w->item);			// queued to process next
+				g->parentBFS[w->item] = cur;
+				g->color[w->item] = !(g->color[cur]);
+			}
+		}
+
+	}
 
 	DPRINT(cout << "<BFS2Coloring" << endl;);
 }
