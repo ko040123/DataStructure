@@ -1,0 +1,27 @@
+# On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
+#  Signed: Kim Woo Bin   Student Number: 21600124
+# Pset13 -> step1. Creating Antenna.txt
+
+.  [0]---[1]---[2]---[3]
+.   |       \   |    /
+.   |         \ |  /
+.  [5]         [6]
+.   |           |
+.  [4]         [7]
+
+#           DFS[0..7] =  0  1  6  7  2  3  5  4
+#  DFS parent[0..7] = -1  0  6  2  5  0  1  6   
+#          BFS0[0..7] =  0  1  5  6  2  4  7  3
+#  BFS parent[0..7] = -1  0  1  6  5  0  1  6
+#        distTo[0..7] =  0  1  2  3  2  1  2  3 
+8
+9
+0 5
+0 1
+1 2
+3 6
+4 5
+2 6
+1 6
+2 3
+6 7

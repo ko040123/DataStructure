@@ -1,8 +1,4 @@
-/*
-*  On my honor, I pledge that I have neither received nor provided improper assistance in my completion on this assignment.
-*  Signed: Kim Woo Bin   Student Number: 21600124
-*/
-/*
+/**
 *  The graph.cpp and graph.h implements an undirected/directed graph of
 *  vertices named 0 through V - 1.
 *  It supports the following two primary operations:
@@ -251,8 +247,16 @@ graph clear(graph g) {
 void print_adjlist(graph g){
 	if (empty(g)) return;
 
-	cout << "your code here \n";
-
+	cout << "\n\tAdjacency-list: \n";
+	for(int v = 0; v < V(g); ++v){
+		cout << "\tV[" << v << "]: ";
+		gnode w = g -> adj[v].next;
+		while(w){
+			cout << w -> item << " ";
+			w = w -> next;
+		}
+		cout << endl;
+	}
 }
 
 // prints dotted lines read from the graph text file.
@@ -354,7 +358,7 @@ void BFS(graph g, int v) {
 	DPRINT(cout << ">BFS v=" << v << endl;);
 	queue<int> que;		  // to process each vertex
 	queue<int> sav;       // BFS result saved
-
+	int dist = 1;
 	// all marked[] are set to false since it may visit all vertices
 	for (int i = 0; i < V(g); i++)  g->marked[i] = false;
 	g->parentBFS[v] = -1;
@@ -373,9 +377,11 @@ void BFS(graph g, int v) {
 				g->marked[w->item] = true;
 				que.push(w->item);			// queued to process next
 				sav.push(w->item);			// save the result
-				cout << "your code here";   // set parentBFS[] & distTo[]
+				g->parentBFS[w->item] = cur;
+				g->distTo[w->item] = g->distTo[g->parentBFS[w->item]] + 1;
 			}
 		}
+		
 	}
 
 	g->BFSv = sav;                // save the result at v
@@ -441,11 +447,14 @@ void setDFS0(graph g, int v, queue<int>& que) {
 // Only que, g->marked[v] and g->parentDFS[] are updated here.
 void DFS(graph g, int v, queue<int>& que) {
 	DPRINT(cout << "\t >_DFS: v=" << v << endl;);
-
 	g->marked[v] = true;	// visited
 	que.push(v);			// save the path
 
-	cout << "your code here (recursion) \n";
+	for(gnode w = g -> adj[v].next; w; w = w -> next){
+		if (g->marked[w->item])	continue;
+		g->parentDFS[w->item] = v;
+		DFS(g, w->item, que);
+	}
 
 	DPRINT(cout << "\t <_DFS: v=" << v << endl;);
 }
@@ -490,10 +499,16 @@ void DFSpath(graph g, int v, int w, stack<int>& path) {
 
 	queue<int> q;
 	DFS(g, v, q);  	             // DFS at v, starting vertex
-	g->DFSv = q;			     // DFS result at v
+	g->DFSv = q;						     // DFS result at v
 
 	path = {};                   // clear path, stack<int>().swap(path);
-	cout << "your code here\n";  // push v to w path to the stack path
+															// push v to w path to the stack path
+	while(q.front() != w){
+		path.push(q.front());
+		q.pop();
+	}
+	path.push(q.front());
+	q.pop();
 
 	DPRINT(cout << "<DFSpath " << endl;);
 }
@@ -527,9 +542,8 @@ int distTo(graph g, int v, int w) {
 	if (!connected(g, v, w)) return 0;
 
 	BFS(g, v);
-
-	cout << "your code here\n";      // compute and return distance
-	return 0;
+	// compute and return distance
+	return g->distTo[w];
 }
 
 /////////////////////////////////////////////////////////////////
