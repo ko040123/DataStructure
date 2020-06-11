@@ -724,23 +724,17 @@ bool bigraph(graph g) {    // using adj-list and BFS
 ///////////////////// bigraph two coloring scheme /////////////////////////////////
 // helper functions to check two-colorability for bigraph
 void init2colorability(graph g) {
-	int count = 2;
-	for (int v = 0; v < V(g); v++) g->marked[v] = false;
+	//int count = 2;
+	for (int v = 0; v < V(g); v++){
+		g->marked[v] = false;
+		g->color[v] = -1;
+	}
 	g->color[0] = BLACK;	// set starting at v=0, BLACK=0, WHITE=1
-
-
-	// for (int v = 0; v < V(g); v++){
-	// 	if(g->CCID[v] == count){
-	// 		g->color[v] = BLACK;
-	// 		count++;
-	// 	}
-	// }
 }
 
 // check the validity of two-coloring which is saved in g->color[].
 bool check2colorability(graph g) {
 	for (int v = 0; v < V(g); v++) {
-
 		for (gnode w = g->adj[v].next; w; w = w->next) {
 			if (g->color[v] == g->color[w->item]) {
 				return false;           // the same color(v,w) encountered
@@ -768,16 +762,13 @@ void DFS2Coloring(graph g, int v) {	// DFS
 void BFS2Coloring(graph g) {
 	DPRINT(cout << ">BFS2Coloring" << endl;);
 	queue<int> que;
-	int v = 0;
-	// int count = 2;
-	// for (int w = 0; w < V(g); w++) {
-	// 	if(g->CCID[w] == count){
-	// 		que.push(w);
-	// 		count++;
-	// 	}
-	// }
-	//Many components case -> separate w/ CCID
-	que.push(v);
+
+	for (int v = 0; v < V(g); v++){
+		if(!g->marked[v]){
+			que.push(v);
+			break;
+		}
+	}
 
 	while (!que.empty()) {
 		int cur = que.front(); que.pop();  // remove it since processed
@@ -804,7 +795,12 @@ bool bigraphDFS2Coloring(graph g) {
 	init2colorability(g);
 
 	// run DFS for two-coloring starting at v=0
-	DFS2Coloring(g, 0);
+	for (int v = 0; v < V(g); v++){
+		if(!g->marked[v]){
+			g->color[v] = BLACK;
+			DFS2Coloring(g, v);
+		}
+	}
 
 	return check2colorability(g);
 }
@@ -816,7 +812,12 @@ bool bigraphBFS2Coloring(graph g) {
 	init2colorability(g);
 
 	// run BFS for two-coloring
-	BFS2Coloring(g);
+	for (int v = 0; v < V(g); v++){
+		if(!g->marked[v]){
+			g->color[v] = BLACK;
+			BFS2Coloring(g);
+		}
+	}
 
 	return check2colorability(g);
 }
