@@ -724,13 +724,23 @@ bool bigraph(graph g) {    // using adj-list and BFS
 ///////////////////// bigraph two coloring scheme /////////////////////////////////
 // helper functions to check two-colorability for bigraph
 void init2colorability(graph g) {
+	int count = 2;
 	for (int v = 0; v < V(g); v++) g->marked[v] = false;
 	g->color[0] = BLACK;	// set starting at v=0, BLACK=0, WHITE=1
+
+
+	// for (int v = 0; v < V(g); v++){
+	// 	if(g->CCID[v] == count){
+	// 		g->color[v] = BLACK;
+	// 		count++;
+	// 	}
+	// }
 }
 
 // check the validity of two-coloring which is saved in g->color[].
 bool check2colorability(graph g) {
 	for (int v = 0; v < V(g); v++) {
+
 		for (gnode w = g->adj[v].next; w; w = w->next) {
 			if (g->color[v] == g->color[w->item]) {
 				return false;           // the same color(v,w) encountered
@@ -745,7 +755,11 @@ void DFS2Coloring(graph g, int v) {	// DFS
 	DPRINT(cout << ">DFS2Coloring v=" << v << " color=" << g->color[v] << endl;);
 	g->marked[v] = true;			// v is visited now
 
-	cout << "your code here (recursion)\n";
+	for(gnode w = g -> adj[v].next; w; w = w -> next){
+		if (g->marked[w->item])	continue;
+		g->color[w->item] = !(g->color[v]);
+		DFS2Coloring(g, w->item);
+	}
 
 	DPRINT(cout << "<DFS2Coloring visits v=" << v << endl;);
 }
@@ -755,6 +769,13 @@ void BFS2Coloring(graph g) {
 	DPRINT(cout << ">BFS2Coloring" << endl;);
 	queue<int> que;
 	int v = 0;
+	// int count = 2;
+	// for (int w = 0; w < V(g); w++) {
+	// 	if(g->CCID[w] == count){
+	// 		que.push(w);
+	// 		count++;
+	// 	}
+	// }
 	//Many components case -> separate w/ CCID
 	que.push(v);
 
@@ -765,7 +786,6 @@ void BFS2Coloring(graph g) {
 				DPRINT(cout << w->item << " ";);
 				g->marked[w->item] = true;
 				que.push(w->item);			// queued to process next
-				g->parentBFS[w->item] = cur;
 				g->color[w->item] = !(g->color[cur]);
 			}
 		}
